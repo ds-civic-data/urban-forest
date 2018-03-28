@@ -1,0 +1,9 @@
+---
+title: "Project Proposal"
+author: "Mitzi Zitler, Frank Gaunt, Clark Chang"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
