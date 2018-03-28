@@ -20,8 +20,15 @@ Trees! We're going to look at trees and what effect they have on house prices, u
 
 ## Data
 
+<<<<<<< HEAD
 ### Source
 Data will mostly come from the USDA forestry data, as well as some Portland neighborhood guidelines and tree rules.
+=======
+### Sources
+
+City of Portland - Parks & Recreation: https://www.portlandoregon.gov/parks/article/433143
+
+>>>>>>> f4ecb2e899b4202d0cba6e1c5190b8513a96047c
 
 ### Data structure
 

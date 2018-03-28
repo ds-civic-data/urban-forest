@@ -19,7 +19,9 @@ Clients
 Data
 ----
 
-### Source
+### Sources
+
+City of Portland - Parks & Recreation: <https://www.portlandoregon.gov/parks/article/433143>
 
 Data will mostly come from the USDA forestry data, as well as some Portland neighborhood guidelines and tree rules.
 
