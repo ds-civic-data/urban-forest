@@ -1,12 +1,12 @@
-### Urban Forest 
+# Urban Forest 
 ## Data Science: Civic Data
 
-# Authors:
+### Authors:
 Mitzi Zitler, Frank Gaunt, Clark Chang
 
-# General Plan:
+### General Plan:
 
-# Timeline:
+### Timeline:
 -March 29th, General Proposal
 
 -May 10th, Symposium
