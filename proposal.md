@@ -17,7 +17,9 @@ Clients
 Data
 ----
 
-### Source
+### Sources
+
+City of Portland - Parks & Recreation: <https://www.portlandoregon.gov/parks/article/433143>
 
 ### Data structure
 
