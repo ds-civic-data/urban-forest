@@ -5,6 +5,8 @@ Mitzi Zitler, Frank Gaunt, Clark Chang
 Themes
 ------
 
+Trees! We're going to look at trees and what effect they have on house prices, using the literature as a guide. We will expand our analysis to include census data, examining demographics in portland in relation to the trees.
+
 Questions
 ---------
 
@@ -19,6 +21,8 @@ Data
 
 ### Source
 
+Data will mostly come from the USDA forestry data, as well as some Portland neighborhood guidelines and tree rules.
+
 ### Data structure
 
 Observational unit, vairables, confidentiality
@@ -26,4 +30,4 @@ Observational unit, vairables, confidentiality
 Deliverable
 -----------
 
-Shiny App?
+We will be making a Shiny App
