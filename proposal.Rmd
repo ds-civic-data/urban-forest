@@ -7,3 +7,26 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+
+## Themes
+
+## Questions
+
+## Relevant Work
+
+## Clients
+
+## Data
+
+
+### Source
+
+### Data structure
+
+Observational unit, vairables, confidentiality
+
+
+## Deliverable
+
+Shiny App?
