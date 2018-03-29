@@ -10,6 +10,8 @@ Trees! We're going to look at trees and what effect they have on house prices, u
 Questions
 ---------
 
+Do trees affect housing prices in neighborhoods? How does this vary by neighborhood? How can we best visualize this? How does this interact with census data, with demographics and household sizes.
+
 Relevant Work
 -------------
 
@@ -32,4 +34,4 @@ Observational unit, vairables, confidentiality
 Deliverable
 -----------
 
-We will be making a Shiny App
+We will be making a Shiny App, which will visualize spatially the distribution of trees across Portland metro by tree type, and this can be overlaid with various demographic information, and infrastructural information like bike paths, major roadways, etc.
