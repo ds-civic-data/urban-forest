@@ -29,7 +29,17 @@ City of Portland - Parks & Recreation: https://www.portlandoregon.gov/parks/arti
 
 
 ### Data structure
-Observational unit, vairables, confidentiality
+Observational unit
+
+The observational unit will likely be the neighborhoods of portland, as there are many neighborhoods with different tree distributions and tree types, as well as well documented demographic information.
+
+Vairables
+
+Variables will definitely include trees, might also include categorical like number of major roadways, or population estimates, as well as, of course: house prices.
+
+Confidentiality
+
+Certain demographic information might be so specific that we might run into the issue of just revealing where minorities live. This is extremely sensitive. In other cases of data confidentiality, edge cases in religion and ethnicity were excluded from the data set in fear of revealing sensitive information.
 
 
 ## Deliverable
