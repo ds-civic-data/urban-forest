@@ -17,21 +17,37 @@ Do trees affect housing prices in neighborhoods? How does this vary by neighborh
 
 ## Relevant Work
 
+Relevant work includes the following literature:
+
+"Valuing green infrastructure in Portland, Oregon"
+https://www.sciencedirect.com/science/article/pii/S0169204614000036
+
+"Trees in the city: valuing street trees in Portland, Oregon"
+https://www.fs.usda.gov/treesearch/pubs/36186
+
+"The Effect of Trees on Crime in Portland, Oregon"
+http://journals.sagepub.com/doi/abs/10.1177/0013916510383238
+
 ## Clients
+
+Potential clients include Angie DiSavlo, Nik Desai, Ryan Kinsella, and Jeff Ramsay.
 
 ## Data
 
 ### Sources
 
-Data will mostly come from the USDA forestry data, as well as some Portland neighborhood guidelines and tree rules.
+On the tree side, data will mostly come from the USDA forestry data, as well as some Portland neighborhood guidelines and tree rules.
 
 City of Portland - Parks & Recreation: https://www.portlandoregon.gov/parks/article/433143
 
+On the housing price side, data will primarily come from zillow and redfin's APIs. 
+
+Some other potential sources iclude Portland Maps Metadata for tracking down any number of neighborhood characteristics, as well as potentially census data to get demographic information.
 
 ### Data structure
 Observational unit
 
-The observational unit will likely be the neighborhoods of portland, as there are many neighborhoods with different tree distributions and tree types, as well as well documented demographic information.
+The observational unit will likely be the neighborhoods of Portland, as there are many neighborhoods with different tree distributions and tree types, as well as well documented demographic information.
 
 Vairables
 
