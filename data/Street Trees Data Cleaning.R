@@ -2,6 +2,8 @@ library(tidyverse)
 library(readr)
 library(readxl)
 library(lubridate)
+library(sp)
+library(ggmap)
 
 set.seed(666)
 
@@ -13,5 +15,9 @@ species_tree <- street_trees %>%
   unique() %>%
   print()
 
+# coordinates(street_trees) <- ~X+Y
 
-  
+portland <- ggmap(get_map(c(lon = -122.62, lat = 45.53), zoom = 11, maptype = "roadmap", color = "bw"))
+
+portland + 
+  geom_point(aes(x=X, y=Y, col = Size), alpha = 0.4, data = street_trees)
