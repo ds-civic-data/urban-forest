@@ -1,0 +1,914 @@
+---
+title: "Canopy Cover and Death Model Research"
+author: "Mitzi Zitler"
+date: "4/16/2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(readr)
+library(readxl)
+```
+
+If you have any interesting research about a particular tree species - either for canopy cover or death model purposes, this would be a good place for that!
+
+```{r}
+sort(species_tree$Common, decreasing = F)
+
+species_tree <- street_trees %>%
+  select(Species, Scientific, Family, Genus, Common) %>%
+  unique() %>%
+  print()
+```
+
+We need a canopy estimate for each species
+
+#### alder: AL
+```{r}
+species_tree %>%
+  filter(Common == "alder") %>%
+  print()
+```
+
+#### Amur maackia:
+```{r}
+species_tree %>%
+  filter(Common == "Amur maackia") %>%
+  print()
+```
+
+#### apple:
+```{r}
+species_tree %>%
+  filter(Common == "apple") %>%
+  print()
+```
+
+#### aborvitae:
+```{r}
+species_tree %>%
+  filter(Common == "aborvitae") %>%
+  print()
+```
+
+#### ash:
+```{r}
+species_tree %>%
+  filter(Common == "ash") %>%
+  print()
+```
+
+#### azara:
+```{r}
+species_tree %>%
+  filter(Common == "azara") %>%
+  print()
+```
+
+#### baldcypress:
+```{r}
+species_tree %>%
+  filter(Common == "baldcypress") %>%
+  print()
+```
+
+#### bay laurel:
+```{r}
+species_tree %>%
+  filter(Common == "bay laurel") %>%
+  print()
+```
+
+#### beech:
+```{r}
+species_tree %>%
+  filter(Common == "beech") %>%
+  print()
+```
+
+#### birch:
+```{r}
+species_tree %>%
+  filter(Common == "birch") %>%
+  print()
+```
+
+#### black locust:
+```{r}
+species_tree %>%
+  filter(Common == "black locust") %>%
+  print()
+```
+
+#### boxelder:
+```{r}
+species_tree %>%
+  filter(Common == "boxelder") %>%
+  print()
+```
+
+#### cascara:
+```{r}
+species_tree %>%
+  filter(Common == "cascara") %>%
+  print()
+```
+
+#### catalpa:
+```{r}
+species_tree %>%
+  filter(Common == "catalpa") %>%
+  print()
+```
+
+#### cedar:
+```{r}
+species_tree %>%
+  filter(Common == "cedar") %>%
+  print()
+```
+
+#### chaste tree:
+```{r}
+species_tree %>%
+  filter(Common == "chaste tree") %>%
+  print()
+```
+
+#### cherry:
+```{r}
+species_tree %>%
+  filter(Common == "cherry") %>%
+  print()
+```
+
+#### chestnut:
+```{r}
+species_tree %>%
+  filter(Common == "chestnut") %>%
+  print()
+```
+
+#### Chinese pistache:
+```{r}
+species_tree %>%
+  filter(Common == "Chinese pistache") %>%
+  print()
+```
+
+#### Chinese toon:
+```{r}
+species_tree %>%
+  filter(Common == "Chinese toon") %>%
+  print()
+```
+
+#### chitalpa:
+```{r}
+species_tree %>%
+  filter(Common == "chitalpa") %>%
+  print()
+```
+
+#### crabapple:
+```{r}
+species_tree %>%
+  filter(Common == "crabapple") %>%
+  print()
+```
+
+#### crape myrtle:
+```{r}
+species_tree %>%
+  filter(Common == "crape myrtle") %>%
+  print()
+```
+
+#### cryptomeria:
+```{r}
+species_tree %>%
+  filter(Common == "cryptomeria") %>%
+  print()
+```
+
+#### cypress:
+```{r}
+species_tree %>%
+  filter(Common == "cypress") %>%
+  print()
+```
+
+#### dawn redwood:
+```{r}
+species_tree %>%
+  filter(Common == "dawn redwood") %>%
+  print()
+```
+
+#### dogwood:
+```{r}
+species_tree %>%
+  filter(Common == "dogwood") %>%
+  print()
+```
+
+#### Douglas-fir:
+```{r}
+species_tree %>%
+  filter(Common == "Douglas-fir") %>%
+  print()
+```
+
+#### dove tree:
+```{r}
+species_tree %>%
+  filter(Common == "dove tree") %>%
+  print()
+```
+
+#### elkhorn cedar:
+```{r}
+species_tree %>%
+  filter(Common == "elkhorn cedar") %>%
+  print()
+```
+
+#### elm:
+```{r}
+species_tree %>%
+  filter(Common == "elm") %>%
+  print()
+```
+
+#### empress tree:
+```{r}
+species_tree %>%
+  filter(Common == "empress tree") %>%
+  print()
+```
+
+#### eucalptus:
+```{r}
+species_tree %>%
+  filter(Common == "eucalptus") %>%
+  print()
+```
+
+#### euptelea:
+```{r}
+species_tree %>%
+  filter(Common == "euptelea") %>%
+  print()
+```
+
+#### false cypress:
+```{r}
+species_tree %>%
+  filter(Common == "false cypress") %>%
+  print()
+```
+
+#### fig:
+```{r}
+species_tree %>%
+  filter(Common == "fig") %>%
+  print()
+```
+
+#### fir:
+```{r}
+species_tree %>%
+  filter(Common == "fir") %>%
+  print()
+```
+
+#### fragrant epaulette tree:
+```{r}
+species_tree %>%
+  filter(Common == "fragrant epaulette tree") %>%
+  print()
+```
+
+#### franklinia:
+```{r}
+species_tree %>%
+  filter(Common == "franklinia") %>%
+  print()
+```
+
+#### fringe tree:
+```{r}
+species_tree %>%
+  filter(Common == "fringe tree") %>%
+  print()
+```
+
+#### giant sequoia:
+```{r}
+species_tree %>%
+  filter(Common == "giant sequoia") %>%
+  print()
+```
+
+#### ginkgo:
+```{r}
+species_tree %>%
+  filter(Common == "ginkgo") %>%
+  print()
+```
+
+#### glorybower:
+```{r}
+species_tree %>%
+  filter(Common == "glorybower") %>%
+  print()
+```
+
+#### golden chain tree:
+```{r}
+species_tree %>%
+  filter(Common == "golden chain tree") %>%
+  print()
+```
+
+#### golden rain tree:
+```{r}
+species_tree %>%
+  filter(Common == "golden rain tree") %>%
+  print()
+```
+
+#### hackberry:
+```{r}
+species_tree %>%
+  filter(Common == "hackberry") %>%
+  print()
+```
+
+#### hardy rubber tree:
+```{r}
+species_tree %>%
+  filter(Common == "hardy rubber tree") %>%
+  print()
+```
+
+#### hawthorn:
+```{r}
+species_tree %>%
+  filter(Common == "hawthorn") %>%
+  print()
+```
+
+#### hazelnut:
+```{r}
+species_tree %>%
+  filter(Common == "hazelnut") %>%
+  print()
+```
+
+#### hemlock:
+```{r}
+species_tree %>%
+  filter(Common == "hemlock") %>%
+  print()
+```
+
+#### holly:
+```{r}
+species_tree %>%
+  filter(Common == "holly") %>%
+  print()
+```
+
+#### honey locust:
+```{r}
+species_tree %>%
+  filter(Common == "honey locust") %>%
+  print()
+```
+
+#### hophornbeam:
+```{r}
+species_tree %>%
+  filter(Common == "hophornbeam") %>%
+  print()
+```
+
+#### hornbeam:
+```{r}
+species_tree %>%
+  filter(Common == "hornbeam") %>%
+  print()
+```
+
+#### horsechestnut:
+```{r}
+species_tree %>%
+  filter(Common == "horsechestnut") %>%
+  print()
+```
+
+#### incense cedar:
+```{r}
+species_tree %>%
+  filter(Common == "incense cedar") %>%
+  print()
+```
+
+#### Japanese raisin tree:
+```{r}
+species_tree %>%
+  filter(Common == "Japanese raisin tree") %>%
+  print()
+```
+
+#### juniper:
+```{r}
+species_tree %>%
+  filter(Common == "juniper") %>%
+  print()
+```
+
+#### katsura:
+```{r}
+species_tree %>%
+  filter(Common == "katsura") %>%
+  print()
+```
+
+#### Kentucky coffeetree:
+```{r}
+species_tree %>%
+  filter(Common == "Kentucky coffeetree") %>%
+  print()
+```
+
+#### larch:
+```{r}
+species_tree %>%
+  filter(Common == "larch") %>%
+  print()
+```
+
+#### lilac tree:
+```{r}
+species_tree %>%
+  filter(Common == "lilac tree") %>%
+  print()
+```
+
+#### linden:
+```{r}
+species_tree %>%
+  filter(Common == "linden") %>%
+  print()
+```
+
+#### madrone:
+```{r}
+species_tree %>%
+  filter(Common == "madrone") %>%
+  print()
+```
+
+#### magnolia, deciduous:
+```{r}
+species_tree %>%
+  filter(Common == "magnolia, deciduous") %>%
+  print()
+```
+
+#### magnolia, evergreen:
+```{r}
+species_tree %>%
+  filter(Common == "magnolia, evergreen") %>%
+  print()
+```
+
+#### maple, bigleaf:
+```{r}
+species_tree %>%
+  filter(Common == "maple, bigleaf") %>%
+  print()
+```
+
+#### maple, Japanese:
+```{r}
+species_tree %>%
+  filter(Common == "maple, Japanese") %>%
+  print()
+```
+
+#### maple, Norway:
+```{r}
+species_tree %>%
+  filter(Common == "maple, Norway") %>%
+  print()
+```
+
+#### maple, other:
+```{r}
+species_tree %>%
+  filter(Common == "maple, other") %>%
+  print()
+```
+
+#### maple, paperbark:
+```{r}
+species_tree %>%
+  filter(Common == "maple, paperbark") %>%
+  print()
+```
+
+#### maple, red:
+```{r}
+species_tree %>%
+  filter(Common == "maple, red") %>%
+  print()
+```
+
+#### maple, silver:
+```{r}
+species_tree %>%
+  filter(Common == "maple, silver") %>%
+  print()
+```
+
+#### medlar:
+```{r}
+species_tree %>%
+  filter(Common == "medlar") %>%
+  print()
+```
+
+#### melliodendron:
+```{r}
+species_tree %>%
+  filter(Common == "melliodendron") %>%
+  print()
+```
+
+#### mimosa tree:
+```{r}
+species_tree %>%
+  filter(Common == "mimosa tree") %>%
+  print()
+```
+
+#### monkey puzzle:
+```{r}
+species_tree %>%
+  filter(Common == "monkey puzzle") %>%
+  print()
+```
+
+#### mountain-ash:
+```{r}
+species_tree %>%
+  filter(Common == "mountain-ash") %>%
+  print()
+```
+
+#### mulberry:
+```{r}
+species_tree %>%
+  filter(Common == "mulberry") %>%
+  print()
+```
+
+#### myrtlewood:
+```{r}
+species_tree %>%
+  filter(Common == "myrtlewood") %>%
+  print()
+```
+
+#### ninebark:
+```{r}
+species_tree %>%
+  filter(Common == "ninebark") %>%
+  print()
+```
+
+#### oak, deciduous:
+```{r}
+species_tree %>%
+  filter(Common == "oak, deciduous") %>%
+  print()
+```
+
+#### oak, evergreen:
+```{r}
+species_tree %>%
+  filter(Common == "oak, evergreen") %>%
+  print()
+```
+
+#### oleaster:
+```{r}
+species_tree %>%
+  filter(Common == "oleaster") %>%
+  print()
+```
+
+#### olive:
+```{r}
+species_tree %>%
+  filter(Common == "olive") %>%
+  print()
+```
+
+#### osage orange:
+```{r}
+species_tree %>%
+  filter(Common == "osage orange") %>%
+  print()
+```
+
+#### pagoda tree:
+```{r}
+species_tree %>%
+  filter(Common == "pagoda tree") %>%
+  print()
+```
+
+#### palm:
+```{r}
+species_tree %>%
+  filter(Common == "palm") %>%
+  print()
+```
+
+#### paw paw:
+```{r}
+species_tree %>%
+  filter(Common == "paw paw") %>%
+  print()
+```
+
+#### peach:
+```{r}
+species_tree %>%
+  filter(Common == "peach") %>%
+  print()
+```
+
+#### pear:
+```{r}
+species_tree %>%
+  filter(Common == "pear") %>%
+  print()
+```
+
+#### Persian ironwood:
+```{r}
+species_tree %>%
+  filter(Common == "Persian ironwood") %>%
+  print()
+```
+
+#### persimmon:
+```{r}
+species_tree %>%
+  filter(Common == "persimmon") %>%
+  print()
+```
+
+#### pine:
+```{r}
+species_tree %>%
+  filter(Common == "pine") %>%
+  print()
+```
+
+#### planetree:
+```{r}
+species_tree %>%
+  filter(Common == "planetree") %>%
+  print()
+```
+
+#### plum:
+```{r}
+species_tree %>%
+  filter(Common == "plum") %>%
+  print()
+```
+
+#### poplar:
+```{r}
+species_tree %>%
+  filter(Common == "poplar") %>%
+  print()
+```
+
+#### Prunus, other:
+```{r}
+species_tree %>%
+  filter(Common == "Prunus, other") %>%
+  print()
+```
+
+#### quince:
+```{r}
+species_tree %>%
+  filter(Common == "quince") %>%
+  print()
+```
+
+#### rosebud:
+```{r}
+species_tree %>%
+  filter(Common == "rosebud") %>%
+  print()
+```
+
+#### redwood:
+```{r}
+species_tree %>%
+  filter(Common == "redwood") %>%
+  print()
+```
+
+#### rose of Sharon:
+```{r}
+species_tree %>%
+  filter(Common == "rose of Sharon") %>%
+  print()
+```
+
+#### sassafras:
+```{r}
+species_tree %>%
+  filter(Common == "sassafras") %>%
+  print()
+```
+
+#### serviceberry:
+```{r}
+species_tree %>%
+  filter(Common == "serviceberry") %>%
+  print()
+```
+
+#### seven son flower:
+```{r}
+species_tree %>%
+  filter(Common == "seven son flower") %>%
+  print()
+```
+
+#### silverbell:
+```{r}
+species_tree %>%
+  filter(Common == "silverbell") %>%
+  print()
+```
+
+#### smoketree:
+```{r}
+species_tree %>%
+  filter(Common == "smoketree") %>%
+  print()
+```
+
+#### snowbell:
+```{r}
+species_tree %>%
+  filter(Common == "snowbell") %>%
+  print()
+```
+
+#### sourwood:
+```{r}
+species_tree %>%
+  filter(Common == "sourwood") %>%
+  print()
+```
+
+#### spindle tree:
+```{r}
+species_tree %>%
+  filter(Common == "spindle tree") %>%
+  print()
+```
+
+#### spruce:
+```{r}
+species_tree %>%
+  filter(Common == "spruce") %>%
+  print()
+```
+
+#### stewartia:
+```{r}
+species_tree %>%
+  filter(Common == "stewartia") %>%
+  print()
+```
+
+#### strawberry tree:
+```{r}
+species_tree %>%
+  filter(Common == "strawberry tree") %>%
+  print()
+```
+
+#### sumac:
+```{r}
+species_tree %>%
+  filter(Common == "sumac") %>%
+  print()
+```
+
+#### sweetgum:
+```{r}
+species_tree %>%
+  filter(Common == "sweetgum") %>%
+  print()
+```
+
+#### tree-of-heaven:
+```{r}
+species_tree %>%
+  filter(Common == "tree-of-heaven") %>%
+  print()
+```
+
+#### tulip poplar:
+```{r}
+species_tree %>%
+  filter(Common == "tulip poplar") %>%
+  print()
+```
+
+#### tupelo:
+```{r}
+species_tree %>%
+  filter(Common == "tupelo") %>%
+  print()
+```
+
+#### unknown:
+```{r}
+species_tree %>%
+  filter(Common == "unknown") %>%
+  print()
+```
+
+#### walnut:
+```{r}
+species_tree %>%
+  filter(Common == "walnut") %>%
+  print()
+```
+
+#### Western redcedar:
+```{r}
+species_tree %>%
+  filter(Common == "Western redcedar") %>%
+  print()
+```
+
+#### willow:
+```{r}
+species_tree %>%
+  filter(Common == "willow") %>%
+  print()
+```
+
+#### wingnut:
+```{r}
+species_tree %>%
+  filter(Common == "wingnut") %>%
+  print()
+```
+
+#### witch hazel:
+```{r}
+species_tree %>%
+  filter(Common == "witch hazel") %>%
+  print()
+```
+
+#### yellow wood:
+```{r}
+species_tree %>%
+  filter(Common == "yellow wood") %>%
+  print()
+```
+
+#### yew:
+```{r}
+species_tree %>%
+  filter(Common == "yew") %>%
+  print()
+```
+
+#### zelkova:
+```{r}
+species_tree %>%
+  filter(Common == "zelkova") %>%
+  print()
+```
