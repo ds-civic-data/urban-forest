@@ -1,0 +1,41 @@
+---
+title: "ACS 2016"
+author: "Frank Gaunt"
+date: "4/19/2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readr)
+library(tidyverse)
+acs2016 <- read_csv("~/urban-forest/data-raw/R11666747_SL150-2.csv") %>%
+  select(`Qualifying Name`, `Total Population`:`% Workers 16 Years and Over: Worked At Home`)
+head(acs2016)
+acs2016tidy <- acs2016 %>%
+  rename("white" = `Total Population: White Alone`,
+         "black" = `Total Population: Black or African American Alone`,
+         "am_indian" = `Total Population: American Indian and Alaska Native Alone`,
+         "asian" = `Total Population: Asian Alone`,
+         "pac_isl" = `Total Population: Native Hawaiian and Other Pacific Islander Alone`,
+         "other" = `Total Population: Some Other Race Alone`,
+         "two_more" = `Total Population: Two or More Races`) %>%
+  gather(white:two_more, key = "race", value = "tot_pop") #%>%
+  #select()
+  
+  
+ # rename("white" = `% Total Population: White Alone`,
+  #       "black" = `% Total Population: Black or African American Alone`,
+   #      "am_indian" = `% Total Population: American Indian and Alaska Native Alone`,
+    #     "asian" = `% Total Population: Asian Alone`,
+     #    "pac_isl" = `% Total Population: Native Hawaiian and Other Pacific Islander Alone`,
+      #   "other" = `% Total Population: Some Other Race Alone`,
+       #  "two_more" = `% Total Population: Two or More Races`) %>%
+#  gather(white:two_more, key = "race1", value = "per_pop") %>%
+ # gather()
+
+#head(acs2016tidy)
+```
