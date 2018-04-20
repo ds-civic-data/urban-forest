@@ -22,7 +22,7 @@ library(tidyverse)
     ## ✖ dplyr::lag()    masks stats::lag()
 
 ``` r
-acs2016 <- read_csv("~/urban-forest/data-raw/R11666747_SL150-2.csv") %>%
+acs2016block <- read_csv("~/urban-forest/data-raw/R11666747_SL150-2.csv") %>%
   select(`Qualifying Name`, `Total Population`:`% Workers 16 Years and Over: Worked At Home`) %>%
   filter(`Occupied Housing Units` != "SE_T166_001") %>%
   rename("median_rent" = `Median Gross Rent`,
@@ -50,7 +50,7 @@ acs2016 <- read_csv("~/urban-forest/data-raw/R11666747_SL150-2.csv") %>%
     ## See spec(...) for full column specifications.
 
 ``` r
-acs2016tidy1 <- acs2016 %>%
+acs2016blocktidy1 <- acs2016block %>%
   rename("white" = `% Total Population: White Alone`,
          "black" = `% Total Population: Black or African American Alone`,
          "am_indian" = `% Total Population: American Indian and Alaska Native Alone`,
@@ -61,7 +61,7 @@ acs2016tidy1 <- acs2016 %>%
   gather(white:two_more, key = "race", value = "percent_population") %>%
   select(`Qualifying Name`, race, percent_population)
 
-acs2016tidy2 <- acs2016 %>%
+acs2016blocktidy2 <- acs2016block %>%
   rename("1_person" = `% Occupied Housing Units: 1-Person Household`,
          "2_person" = `% Occupied Housing Units: 2-Person Household`,
          "3_person" = `% Occupied Housing Units: 3-Person Household`,
@@ -72,7 +72,7 @@ acs2016tidy2 <- acs2016 %>%
   gather(`1_person`:`7_more_person`, key = "household_size", value = "percent_occupied_housing_units") %>%
   select(`Qualifying Name`, household_size, percent_occupied_housing_units)
 
-acs2016tidy3 <- acs2016 %>%
+acs2016blocktidy3 <- acs2016block %>%
   rename("below_hs" = `% Population 25 Years and Over: Less than High School`,
          "hs_degree" = `% Population 25 Years and Over: High School Graduate (Includes Equivalency)`,
          "some_college" = `% Population 25 Years and Over: Some College`,
@@ -83,13 +83,13 @@ acs2016tidy3 <- acs2016 %>%
   gather(`below_hs`:`doctorate_degree`, key = "education_level", value = "percent_population") %>%
   select(`Qualifying Name`, education_level, percent_population)
 
-acs2016tidy4 <- acs2016 %>%
+acs2016blocktidy4 <- acs2016block %>%
   rename("employed" = `% Civilian Population in Labor Force 16 Years and Over: Employed`,
          "unemployed" = `% Civilian Population in Labor Force 16 Years and Over: Unemployed`) %>%
   gather(employed:unemployed, key = "employment_status", value = "percent_population") %>%
   select(`Qualifying Name`, employment_status, percent_population)
 
-acs2016tidy5 <- acs2016 %>%
+acs2016blocktidy5 <- acs2016block %>%
   rename("less_10k" = `% Households: Less than $10,000`,
          "10k_14999" = `% Households: $10,000 to $14,999`,
          "15k_19999" = `% Households: $15,000 to $19,999`,
@@ -109,19 +109,19 @@ acs2016tidy5 <- acs2016 %>%
   gather(`less_10k`:`200k_more`, key = "household_income", value = "percent_households") %>%
   select(`Qualifying Name`, household_income, percent_households)
 
-acs2016tidy6 <- acs2016 %>%
+acs2016blocktidy6 <- acs2016block %>%
   rename("earnings" = `% Households: with Earnings`,
          "no_earnings" = `% Households: No Earnings`) %>%
   gather(earnings:no_earnings, key = "earnings", value = "percent_households") %>%
   select(`Qualifying Name`, earnings, percent_households)
 
-acs2016tidy7 <- acs2016 %>%
+acs2016blocktidy7 <- acs2016block %>%
   rename("family" = `Median Household Income (In 2016 Inflation Adjusted Dollars)`,
          "nonfamily" = `Median Nonfamily Household Income (In 2016 Inflation Adjusted Dollars)`) %>%
   gather(family:nonfamily, key = "income_type", value = "median_income") %>%
   select(`Qualifying Name`, income_type, median_income)
 
-acs2016tidy8 <- acs2016 %>%
+acs2016blocktidy8 <- acs2016block %>%
   rename("capital" = `% Households: with Interest, Dividends, or Net Rental Income`,
          "social_security" = `% Households: with Social Security Income`,
          "ssi" = `% Households: with Supplemental Security Income (Ssi)`,
@@ -132,11 +132,11 @@ acs2016tidy8 <- acs2016 %>%
   gather(`capital`:`other`, key = "income_type", value = "percent_households") %>%
   select(`Qualifying Name`, income_type, percent_households)
 
-acs2016tidy9 <- acs2016 %>%
+acs2016blocktidy9 <- acs2016block %>%
   rename("renter_occupied" = `% Occupied Housing Units: Renter Occupied`,
          "owner_occupied" = `% Occupied Housing Units: Owner Occupied`) %>%
   gather(owner_occupied:renter_occupied, key = "property_type", value = "percent_housing_units") %>%
   select(`Qualifying Name`, property_type, percent_housing_units)
 ```
 
-acs2016tidy10 &lt;- acs2016 %&gt;% rename("10\_less" = `% Workers 16 Years and Over: Did Not Work At Home: Less than 10 Minutes`, "10\_19" = `% Workers 16 Years and Over: Did Not Work At Home: 10 to 19 Minutes`, "20\_29" = `% Workers 16 Years and Over: Did Not Work At Home: 20 to 29 Minutes`, "30\_39" = `% Workers 16 Years and Over: Did Not Work At Home: 30 to 39 Minutes`, "40\_59" = `% Workers 16 Years and Over: Did Not Work At Home: 40 to 59 Minutes`, "60\_89" = `% Workers 16 Years and Over: Did Not Work At Home: 60 to 89 Minutes`, "90\_more" = `% Workers 16 Years and Over: Did Not Work At Home: 90 or More Minutes`, "none\_home" = `% Workers 16 Years and Over: Worked At Home`) %&gt;% gather(`10_less`:`none_home`, key = "commute\_time", value = "percent\_population") %&gt;% select(`Qualifying Name`, commute\_time, percent\_population) \`\`\`
+acs2016blocktidy10 &lt;- acs2016block %&gt;% rename("10\_less" = `% Workers 16 Years and Over: Did Not Work At Home: Less than 10 Minutes`, "10\_19" = `% Workers 16 Years and Over: Did Not Work At Home: 10 to 19 Minutes`, "20\_29" = `% Workers 16 Years and Over: Did Not Work At Home: 20 to 29 Minutes`, "30\_39" = `% Workers 16 Years and Over: Did Not Work At Home: 30 to 39 Minutes`, "40\_59" = `% Workers 16 Years and Over: Did Not Work At Home: 40 to 59 Minutes`, "60\_89" = `% Workers 16 Years and Over: Did Not Work At Home: 60 to 89 Minutes`, "90\_more" = `% Workers 16 Years and Over: Did Not Work At Home: 90 or More Minutes`, "none\_home" = `% Workers 16 Years and Over: Worked At Home`) %&gt;% gather(`10_less`:`none_home`, key = "commute\_time", value = "percent\_population") %&gt;% select(`Qualifying Name`, commute\_time, percent\_population) \`\`\`
