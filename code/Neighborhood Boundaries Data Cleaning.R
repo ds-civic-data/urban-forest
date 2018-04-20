@@ -22,5 +22,5 @@ neighborhoods2 <- fortify(neighborhoods)
 
 neighborhoods_all <- full_join(neighborhoods2, n_data, by = c('id' = 'OBJECTID'))
 
-write_csv(neighborhoods2, path = path.expand("~/urband-forest/data/"))
-
+write_csv(neighborhoods2, "neighborhoods2.csv")
+write_csv(neighborhoods_all, "neighborhoods_all.csv")
