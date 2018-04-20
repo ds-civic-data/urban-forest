@@ -23,3 +23,22 @@ portland <- ggmap(get_map(c(lon = -122.62, lat = 45.53), zoom = 11,
 
 portland + 
   geom_point(aes(x=X, y=Y, col = Size), alpha = 0.4, data = street_trees)
+
+sort(species_tree$Common, decreasing = F)
+
+class(coordinates(street_trees))
+class(data_frame(coordinates(street_trees)))
+
+street_trees$Site_Size <- factor(street_trees$Site_Size, 
+                                 levels = c("Small", "Medium", "Large"))
+
+street_trees_thin <- street_trees %>%
+  select(X, Y, Date_Inventoried, Species, Condition, Neighborhood, 
+         Family, Genus, Common, Size) %>%
+  filter(!is.na(X) & !is.na(Y) & !is.na(Size) & !is.na(Neighborhood) & 
+           Common != "unknown") %>%
+  as_date(street_trees$Date_Inventoried)
+
+street_trees_thin$Date_Inventoried <- as_date(street_trees_thin$Date_Inventoried)
+head(street_trees_thin)
+write_csv(street_trees_thin, "~/urban-forest/data/street_trees_thin.csv")
