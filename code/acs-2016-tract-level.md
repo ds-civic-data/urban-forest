@@ -21,14 +21,15 @@ library(tidyverse)
 
 ``` r
 acs2016tract <- read_csv("~/urban-forest/data-raw/R11671742_SL140.csv") %>%
-  select(`FIPS`, `Qualifying Name`, `Total Population`:`% Workers 16 Years and Over: Worked At Home`) %>%
+#  select(`FIPS`, `Census Tract`, `Qualifying Name`, `Total Population`:`% Workers 16 Years and Over: Worked At Home`) %>%
   filter(`Households:_7` != "SE_T080_001") %>%
   rename("median_rent" = `Median Gross Rent`,
          "total_population" = `Total Population`,
          "population_density" = `Population Density (Per Sq. Mile)`,
          "area" = `Area (Land)_1`,
          "qualifying_name" = `Qualifying Name`,
-         "fips" = `FIPS`)
+         "fips" = `FIPS`,
+         "census_tract" = `Census Tract`)
 ```
 
     ## Warning: Duplicated column names deduplicated: 'Area (Land)' => 'Area
@@ -98,9 +99,9 @@ tidytract2016 <- acs2016tract %>%
          "60_89_commute" = `% Workers 16 Years and Over: Did Not Work At Home: 60 to 89 Minutes`,
          "90_more_commute" = `% Workers 16 Years and Over: Did Not Work At Home: 90 or More Minutes`,
          "no_commute" = `% Workers 16 Years and Over: Worked At Home`) %>%
-  select(fips:area, white:two_more_races, below_hs:doctorate_degree, unemployment_rate, hhs_less_10k:hhs_200k_more, med_family_income, med_nonfamily_income, hhs_with_no_earnings, hhs_capital_income, hhs_social_security, hhs_ssi, hhs_public_assistance_income, hhs_retirement_income, renter_occupied_units, owner_occupied_units, `10_less_commute`:no_commute)
+  select(qualifying_name, fips, census_tract, total_population, population_density, area, white:two_more_races, below_hs:doctorate_degree, unemployment_rate, hhs_less_10k:hhs_200k_more, med_family_income, med_nonfamily_income, hhs_with_no_earnings, hhs_capital_income, hhs_social_security, hhs_ssi, hhs_public_assistance_income, hhs_retirement_income, renter_occupied_units, owner_occupied_units, `10_less_commute`:no_commute)
 
-tidytract2016[, c(1, 3:54)] <- sapply(tidytract2016[, c(1, 3:54)], as.numeric)
+tidytract2016[, c(2:54)] <- sapply(tidytract2016[, c(2:54)], as.numeric)
 
 write_csv(tidytract2016, "tidytract2016.csv")
 ```
