@@ -7,7 +7,8 @@ library(ggmap)
 
 set.seed(666)
 
-street_trees <- read_excel("~/urban-forest/data-raw/Street_Trees.xlsm", col_names = T) %>%
+street_trees <- read_excel("~/urban-forest/data-raw/Street_Trees.xlsm", 
+                           col_names = T) %>%
   sample_n(size = 10000, replace = F) 
 
 species_tree <- street_trees %>%
@@ -17,7 +18,8 @@ species_tree <- street_trees %>%
 
 # coordinates(street_trees) <- ~X+Y
 
-portland <- ggmap(get_map(c(lon = -122.62, lat = 45.53), zoom = 11, maptype = "roadmap", color = "bw"))
+portland <- ggmap(get_map(c(lon = -122.62, lat = 45.53), zoom = 11, 
+                          maptype = "roadmap", color = "bw"))
 
 portland + 
   geom_point(aes(x=X, y=Y, col = Size), alpha = 0.4, data = street_trees)
