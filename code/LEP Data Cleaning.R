@@ -20,7 +20,7 @@ plot(lep)
 
 lep2 <- fortify(lep)
 
-lep_all <- full_join(lep2, lep_data, by = c('id' = 'OBJECTID'))
+lep_all <- full_join(lep2, lep_data, by = c('id' = 'Id'))
 
 write_csv(lep2, "lep2.csv")
 write_csv(lep_all, "lep_all.csv")
