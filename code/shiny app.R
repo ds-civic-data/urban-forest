@@ -90,7 +90,7 @@ server <- function(input, output) {
     
     ggmap(portland, base_layer = 
       ggplot(data = lep_tidytract2016, 
-        aes_string(x=long, y=lat, group=TRACTCE, fill=input$fill_opts), 
+        aes(x=long, y=lat, group=group, fill=input$fill_opts), 
         alpha = 0.6) +
       geom_polygon(data = neighborhoods_all, aes(x=long, y=lat, group=group), 
                    col = input$bounds_opt, fill = 'transparent') +
