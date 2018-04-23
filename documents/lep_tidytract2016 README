@@ -1,0 +1,103 @@
+## lep_tidytract2016
+This is a key for the columns in this dataset, listed from left to right, with headers to section off areas of the data.
+
+### Locational Variables
+long.x - Logitude points for tract polygons
+lat.x - Latitude points for tract polygons
+group.x - TBA
+TRACTCE - Census tract identifier, also last few digits of GEOID
+GEOID - Census geographic indentifier, contains county FIPS code and census tract code
+NAME.x - TBA
+
+### General Population and Tract Information
+total_population - Census tract total population
+population_density - Census tract population, per square mile
+area - Census tract area, in square miles
+
+### Race
+white - % Total Population: White Alone
+black - % Total Population: Black or African American Alone
+am_indian - % Total Population: American Indian and Alaska Native Alone
+asian - % Total Population: Asian Alone
+pac_isl - % Total Population: Native Hawaiian and Other Pacific Islander Alone
+other_race - % Total Population: Some Other Race Alone
+two_more_races - % Total Population: Two or More Races
+
+### Educational Attainment
+below_hs - % Total Population: Below a High School Degree, or its equivalent
+hs_degree - % Total Population: High School Degree, or its equivalent
+some_college - % Total Population: Completed Some College
+bachelors_degree % Total Population: Bachelor's Degree
+masters_degree % Total Population: Master's Degree
+professional_school_degree - % Total Population: Professional School Degree
+doctorate_degree - % Total Population: Doctorate Degree
+
+### Employment
+unemployment_rate - % Civilian Population in Labor Force 16 Years and Over: Unemployed
+
+### Income 'Brackets'
+hss_less_10k - % Households: Less than $10,000
+hhs_10k_14999 - % Households: $10,000 to $14,999
+hhs_15k_19999 - % Households: $15,000 to $19,999
+hhs_20k_24999 - % Households: $20,000 to $24,999
+hhs_25k_29999 - % Households: $25,000 to $29,999
+hhs_30k_34999 - % Households: $30,000 to $34,999
+hhs_35k_39999 - % Households: $35,000 to $39,999
+hhs_40k_44999 - % Households: $40,000 to $44,999
+hhs_45k_49999 - % Households: $45,000 to $49,999
+hhs_50k_59999 - % Households: $50,000 to $59,999
+hhs_60k_74999 - % Households: $60,000 to $74,999
+hhs_75k_99999 - % Households: $75,000 to $99,999
+hhs_100k_124999 - % Households: $100,000 to $124,999
+hhs_125k_149999 - % Households: $125,000 to $149,999
+hhs_150k_199999 - % Households: $150,000 to $199,999
+hhs_200k_more - % Households: $200 or More
+
+### Median Statistics
+med_family_income - Median Household Income (In 2016 Inflation Adjusted Dollars)
+med_nonfamily_income - Median Nonfamily Household Income (In 2016 Inflation Adjusted Dollars)
+
+### Sources of Income
+hhs_with_no_earnings - % Households: No Earnings
+hhs_capital_income - % Households: with Interest, Dividends, or Net Rental Income
+hhs_social_security - % Households: with Social Security Income
+hhs_ssi - % Households: with Supplemental Security Income (Ssi)
+hhs_public_assistance_income - % Households: with Public Assistance Income
+hhs_retirement_income - % Households: with Retirement Income
+
+### Housing
+renter_occupied_units - % Occupied Housing Units: Owner Occupied
+owner_occupied_units - % Occupied Housing Units: Renter Occupied
+
+### Commute Time
+10_less_commute - % Workers 16 Years and Over: Did Not Work At Home: Less than 10 Minutes
+10_19_commute - % Workers 16 Years and Over: Did Not Work At Home: 10 to 19 Minutes
+20_29_commute - % Workers 16 Years and Over: Did Not Work At Home: 20 to 29 Minutes
+30_39_commute - % Workers 16 Years and Over: Did Not Work At Home: 30 to 39 Minutes
+40_59_commute - % Workers 16 Years and Over: Did Not Work At Home: 40 to 59 Minutes
+60_89_commute - % Workers 16 Years and Over: Did Not Work At Home: 60 to 89 Minutes
+90_more_commute - % Workers 16 Years and Over: Did Not Work At Home: 90 or More Minutes
+no_commute - % Workers 16 Years and Over: Worked At Home
+
+### Locational Data, again
+long.y - Logitude points for tract polygons
+lat.y - Latitude points for tract polygons
+order.y - TBA
+group.y - TBA
+NAME.y - TBA
+
+### Population, again
+Total_Pop_ - Total Population that have reported limited English proficiency in a tract.
+
+### Primary Language of People with Limited English Proficiency
+Spanish - Count of People with Spanish as Primary Language
+Russian - Count of People with Russian as Primary Language
+Chinese - Count of People with Chinese as Primary Language
+Japanese - Count of People with Japanese as Primary Language
+Korean - Count of People with Korean as Primary Language
+Mon_Khmer - Count of People with Mon Khmer as Primary Language
+Laotian - Count of People with Laotian as Primary Language
+Vietnamese - Count of People with Vietnamese as Primary Language
+Tagalog - Count of People with Tagalog as Primary Language
+Arabic - Count of People with Arabic as Primary Language
+African - Count of People with African as Primary Language
