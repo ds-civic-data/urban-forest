@@ -57,7 +57,7 @@ bounds_options <- c("black", "white", "transparent")
 ui <- fluidPage(
   
   # Application title
-  titlePanel("Adding a Reactive"),
+  titlePanel("Portland: Trees & Demographics"),
   
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
@@ -90,7 +90,7 @@ server <- function(input, output) {
   
   output$geom_map <- renderPlot({
     
-    portland %>%
+    p1 <- portland %>%
       ggmap(base_layer = ggplot(lep_tidytract2016)) +
       geom_polygon(data = lep_tidytract2016, 
                    aes_string(x=long, y=lat, group=group.x, 
@@ -104,9 +104,11 @@ server <- function(input, output) {
       scale_fill_gradientn(colours = terrain.colors(7), na.value = 'transparent') +
       theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
       theme_bw()
+    return(p1)
     
   })
-  
+ 
+  #output$data_table <- renderTable({}) 
 }
 
 # Run the application 
