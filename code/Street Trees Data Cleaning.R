@@ -42,3 +42,13 @@ street_trees_thin <- street_trees %>%
 street_trees_thin$Date_Inventoried <- as_date(street_trees_thin$Date_Inventoried)
 head(street_trees_thin)
 write_csv(street_trees_thin, "~/urban-forest/data/street_trees_thin.csv")
+
+street_trees_all <- read_excel("~/urban-forest/data-raw/Street_Trees.xlsm", 
+                           col_names = T)
+street_trees_all <- street_trees_all %>%
+  dplyr::select(X, Y, Date_Inventoried, Species, Condition, Neighborhood, 
+         Family, Genus, Common, Size) %>%
+  filter(!is.na(X) & !is.na(Y) & !is.na(Size) & !is.na(Neighborhood) & 
+           Common != "unknown")
+
+write_csv(street_trees_all, "~/urban-forest/data/street_trees_all.csv")
