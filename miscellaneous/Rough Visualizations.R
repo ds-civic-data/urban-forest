@@ -46,4 +46,28 @@ ggmap(portland, base_layer = ggplot(lep_all)) +
   theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
   theme_bw()
 
+ggmap(portland, base_layer = ggplot(tidytract2106_spatial)) +
+  geom_polygon(data = tidytract2106_spatial, 
+               aes(x=long, y=lat, group = group, fill = total_population), 
+               alpha = 0.7) +
+  scale_fill_gradient(low = "yellow", high = "red") +
+  geom_polygon(data = neighborhoods_all, aes(x=long, y=lat, group=group), 
+               col = 'black',
+               fill = 'transparent', lwd = 0.3) +
+  labs(title = "Population by Census Tract in Portland") +
+  theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
+  theme_bw()
+
+ggmap(portland, base_layer = ggplot(neighborhoods_all)) +
+  geom_polygon(data = tidytract2106_spatial, 
+               aes(x=long, y=lat, group=group, fill=bachelors_degree),
+               alpha = 0.6) +
+  geom_polygon(data = neighborhoods_all, aes(x=long, y=lat, group=group), 
+               col = 'black', fill = 'transparent') +
+  geom_point(data = street_trees_thin, aes(x=X, y=Y), col = 'dark green',
+             alpha = 0.05, size = 0.8) +
+  scale_fill_gradientn(colours = terrain.colors(7), na.value = 'transparent') +
+  labs(title = "Street Trees and Bachelors Degrees in Portland") +
+  theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
+  theme_bw()
 
