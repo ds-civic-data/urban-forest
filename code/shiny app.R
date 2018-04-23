@@ -83,29 +83,25 @@ ui <- fluidPage(
 server <- function(input, output) {
   
   street_trees_all_filtered <- reactive({
-    ##add code
-    street_trees_all %>%
-      sample_n(sample = input$tree_sample, replace = F)
+    sample_n(street_trees_all, size = input$tree_sample, replace = F)
   })
   
   output$geom_map <- renderPlot({
     
-    p1 <- portland %>%
-      ggmap(base_layer = ggplot(lep_tidytract2016)) +
-      geom_polygon(data = lep_tidytract2016, 
-                   aes_string(x=long, y=lat, group=group.x, 
-                              fill=input$fill_opts),
-                   alpha = 0.6) +
+    ggmap(portland, base_layer = 
+      ggplot(data = lep_tidytract2016, 
+        aes_string(x=long, y=lat, group=TRACTCE, fill=input$fill_opts), 
+        alpha = 0.6) +
       geom_polygon(data = neighborhoods_all, aes(x=long, y=lat, group=group), 
                    col = input$bounds_opt, fill = 'transparent') +
-      geom_point(data = street_trees_all_filtered,
+      geom_point(data = street_trees_all_filtered(),
                  aes(x=X, y=Y), col = 'dark green',
                  alpha = input$alpha_opts, size = 0.75) +
       scale_fill_gradientn(colours = terrain.colors(7), na.value = 'transparent') +
       theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
       theme_bw()
-    return(p1)
-    
+  
+    ) 
   })
  
   #output$data_table <- renderTable({}) 
