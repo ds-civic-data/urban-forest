@@ -1,11 +1,42 @@
 ---
-title: "Urban Forest Presentation Slides"
+title: "Urban Forest"
+subtitle: "Presentation"
 output: ioslides_presentation
-authors: Frank, Clark, Mitzi
+authors: 'Frank, Clark, Mitzi'
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### Urban Forest: Our Work
+# Urban Forest
+
+## UF: Our Work
+
+- There's a lot of literature about trees and demographics, because Portland has such well documented data on the street trees
+
+- Using ggmap and shiny, we can interactively really dig into that data
+
+
+
+
+## UF: The Narrative
+
+- By using a shiny app as our deliverable, we don't have to necessarily choose which narrative we're trying to present
+
+- We can guide people towards a narrative, but ultimately the choice is up to them!
+
+
+## UF: The Implications
+
+- We want to have data tables and regressions: some way to make implications out of the data
+
+- This will be difficult! But we're working on it
+
+
+## UF: The Question
+
+- This begs the question: what questions are we asking ourselves?
+
+- 
+
