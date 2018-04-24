@@ -89,34 +89,41 @@
           </hgroup>
   </slide>
 
-<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Urban Forest</h2></hgroup><article  id="urban-forest">
-
-</article></slide><slide class=""><hgroup><h2>UF: Our Work</h2></hgroup><article  id="uf-our-work">
+<slide class=""><hgroup><h2>UF: Our Information and Data</h2></hgroup><article  id="uf-our-information-and-data">
 
 <ul>
 <li><p>There&#39;s a lot of literature about trees and demographics, because Portland has such well documented data on the street trees</p></li>
-<li><p>Using ggmap and shiny, we can interactively really dig into that data</p></li>
+<li><p>We have data on every individual tree in Portland, including the tree&#39;s type and size</p></li>
+<li><p>We have data from the American Community Survey (ACS), measured at the tract and block group levels, on race, income level, income sources, housing, education level, and commute time</p></li>
+<li><p>Census tracts have approximately people 3,000 to 8,000 people, while census block groups have approximately 500 to 3,000 people</p></li>
+<li><p>We have also merged it with data on the primary language of people with limited English proficiency</p></li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>UF: The Narrative</h2></hgroup><article  id="uf-the-narrative">
 
 <ul>
-<li><p>By using a shiny app as our deliverable, we don&#39;t have to necessarily choose which narrative we&#39;re trying to present</p></li>
-<li><p>We can guide people towards a narrative, but ultimately the choice is up to them!</p></li>
+<li><p>We are looking at how canopy coverage intersects with various demographics, with an implicit focus on equity</p></li>
+<li><p>By using a shiny app as our deliverable, we allow the viewers to choose what specific aspects of the data they are interested in. Thus, how they define equity can be flexible</p></li>
+<li><p>However, we will still include our own analysis on canopy coverage and demographics, to provide a more wholistic account of our data</p></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>UF: The Implications</h2></hgroup><article  id="uf-the-implications">
+</article></slide><slide class=""><hgroup><h2>UF: The Deliverable</h2></hgroup><article  id="uf-the-deliverable">
 
 <ul>
-<li><p>We want to have data tables and regressions: some way to make implications out of the data</p></li>
-<li><p>This will be difficult! But we&#39;re working on it</p></li>
+<li><p>Our shiny app will have three main components: the map, the datatable, and the model</p></li>
+<li><p>The map: Portland, divided in census tracts, with canopy coverage and different demographic data</p></li>
+<li><p>The datatable: Allow users to select columns and rows of interest. May also come with a ggplot, to allow non-spatial data visualization</p></li>
+<li><p>The model: Method of predicting canopy coverage with our whole dataset. More wholistic than the other parts of the deliverable, and the only &#39;static&#39; part of our project</p></li>
+<li><p>The model and datatable components will also have both census tract and census block group level observations. Block groups are too small for mapping onto Portland in a meaningful way, and thus will not be included in the map.</p></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>UF: The Question</h2></hgroup><article  id="uf-the-question">
+</article></slide><slide class=""><hgroup><h2>UF: Possible Additions, depending on data</h2></hgroup><article  id="uf-possible-additions-depending-on-data">
 
 <ul>
-<li><p>This begs the question: what questions are we asking ourselves?</p></li>
-<li></li>
+<li><p>Finding data on Portland&#39;s trees over time would allow us to incorporate other years of the ACS</p></li>
+<li><p>This would allow us to add a time-series component to our deliverable</p></li>
+<li><p>This would also allow us to forecast both canopy coverage and demographic data</p></li>
+<li><p>Finding data on trees planted by the city of Portland would allow us to assess if they are targetting the &#39;right&#39; areas, either in making canopy coverage more equitable, or just in how effectively it expands canopy coverage</p></li>
 </ul></article></slide>
 
 

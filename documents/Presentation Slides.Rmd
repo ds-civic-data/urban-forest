@@ -9,34 +9,45 @@ authors: 'Frank, Clark, Mitzi'
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Urban Forest
 
-## UF: Our Work
+## UF: Our Information and Data
 
 - There's a lot of literature about trees and demographics, because Portland has such well documented data on the street trees
 
-- Using ggmap and shiny, we can interactively really dig into that data
+- We have data on every individual tree in Portland, including the tree's type and size
 
+- We have data from the American Community Survey (ACS), measured at the tract and block group levels, on race, income level, income sources, housing, education level, and commute time
 
+- Census tracts have approximately people 3,000 to 8,000 people, while census block groups have approximately 500 to 3,000 people
 
+- We have also merged it with data on the primary language of people with limited English proficiency
 
 ## UF: The Narrative
 
-- By using a shiny app as our deliverable, we don't have to necessarily choose which narrative we're trying to present
+- We are looking at how canopy coverage intersects with various demographics, with an implicit focus on equity
 
-- We can guide people towards a narrative, but ultimately the choice is up to them!
+- By using a shiny app as our deliverable, we allow the viewers to choose what specific aspects of the data they are interested in. Thus, how they define equity can be flexible
 
+- However, we will still include our own analysis on canopy coverage and demographics, to provide a more wholistic account of our data
 
-## UF: The Implications
+## UF: The Deliverable
 
-- We want to have data tables and regressions: some way to make implications out of the data
+- Our shiny app will have three main components: the map, the datatable, and the model
 
-- This will be difficult! But we're working on it
+- The map: Portland, divided in census tracts, with canopy coverage and different demographic data
 
+- The datatable: Allow users to select columns and rows of interest. May also come with a ggplot, to allow non-spatial data visualization
 
-## UF: The Question
+- The model: Method of predicting canopy coverage with our whole dataset. More wholistic than the other parts of the deliverable, and the only 'static' part of our project
 
-- This begs the question: what questions are we asking ourselves?
+- The model and datatable components will also have both census tract and census block group level observations. Block groups are too small for mapping onto Portland in a meaningful way, and thus will not be included in the map. 
 
-- 
+## UF: Possible Additions, depending on data
 
+- Finding data on Portland's trees over time would allow us to incorporate other years of the ACS
+
+- This would allow us to add a time-series component to our deliverable
+
+- This would also allow us to forecast both canopy coverage and demographic data
+
+- Finding data on trees planted by the city of Portland would allow us to assess if they are targetting the 'right' areas, either in making canopy coverage more equitable, or just in how effectively it expands canopy coverage
