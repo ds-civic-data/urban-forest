@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - We have data from the American Community Survey (ACS), measured at the tract and block group levels, on race, income level, income sources, housing, education level, and commute time
 
-- Census tracts have approximately people 3,000 to 8,000 people, while census block groups have approximately 500 to 3,000 people
+- Census tracts have approximately people 1,500 to 8,000 people, while census block groups have approximately 500 to 3,000 people
 
 - We have also merged it with data on the primary language of people with limited English proficiency
 
