@@ -15,6 +15,8 @@ set.seed(666)
 ##load the data
 lep_tidytract2016 <- read_csv('~/urban-forest/data/lep_tidytract2016.csv', 
                               col_names = T)
+tidytract2016_spatial <- read_csv('~/urban-forest/data/tidytract2016_spatial.csv',
+                                  col_names = T)
 street_trees_thin <- read_csv('~/urban-forest/data/street_trees_thin.csv', 
                               col_names = T)
 street_trees_all <- read_csv('~/urban-forest/data/street_trees_all.csv', 
@@ -86,8 +88,11 @@ server <- function(input, output) {
   output$geom_map <- renderPlot({
     
     ggmap(portland) + 
-      geom_polygon(data = lep_tidytract2016, 
-                   aes(x=long, y=lat, group=group, fill=input$fill_opts), 
+      geom_polygon(data = tidytract2016_spatial, 
+                   aes_string(x=tidytract2016_spatial$long, 
+                              y=tidytract2016_spatial$lat, 
+                              group=tidytract2016_spatial$group, 
+                              fill=input$fill_opts), 
                    alpha = 0.6) +
       geom_polygon(data = neighborhoods_all, 
                    aes(x=long, y=lat, group=group), 
@@ -99,7 +104,7 @@ server <- function(input, output) {
       theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
       theme_bw()
   
-    ) 
+     
   })
  
   #output$data_table <- renderTable({}) 
