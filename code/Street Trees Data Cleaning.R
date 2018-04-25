@@ -45,10 +45,18 @@ write_csv(street_trees_thin, "~/urban-forest/data/street_trees_thin.csv")
 
 street_trees_all <- read_excel("~/urban-forest/data-raw/Street_Trees.xlsm", 
                            col_names = T)
+#dummy_tree <- c(-100, 44, NA, 'DD', 'Good', 'x', 'Dummy', 'Dummy', 'dummy', 'D')
+#street_trees_all <- rbind(street_trees_all, dummy_tree, dummy_tree, dummy_tree, 
+#                          dummy_tree, dummy_tree, dummy_tree, dummy_tree, dummy_tree, 
+#                          dummy_tree, dummy_tree, dummy_tree, dummy_tree, dummy_tree, 
+#                          dummy_tree, dummy_tree, dummy_tree, dummy_tree, dummy_tree)
 street_trees_all <- street_trees_all %>%
   dplyr::select(X, Y, Date_Inventoried, Species, Condition, Neighborhood, 
          Family, Genus, Common, Size) %>%
   filter(!is.na(X) & !is.na(Y) & !is.na(Size) & !is.na(Neighborhood) & 
-           Common != "unknown")
+           Common != "unknown") %>%
+  mutate(`Canopy Coverage` = ifelse(Size == 'S', 0.01, 
+                               ifelse(Size == 'M', 0.02,
+                                      ifelse(Size == 'L', 0.03, 5))))
 
 write_csv(street_trees_all, "~/urban-forest/data/street_trees_all.csv")

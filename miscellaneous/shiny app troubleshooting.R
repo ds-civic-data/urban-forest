@@ -15,6 +15,8 @@ set.seed(666)
 ##load the data
 lep_tidytract2016 <- read_csv('~/urban-forest/data/lep_tidytract2016.csv', 
                               col_names = T)
+tidytract2016_spatial <- read_csv('~/urban-forest/data/tidytract2016_spatial.csv',
+                                  col_names = T)
 street_trees_all <- read_csv('~/urban-forest/data/street_trees_all.csv', 
                              col_names = T)
 neighborhoods_all <- read_csv('~/urban-forest/data/neighborhoods_all.csv', 
@@ -85,20 +87,19 @@ server <- function(input, output) {
   output$geom_map <- renderPlot({
     
     ggmap(portland) +
-            geom_polygon(data = lep_tidytract2016, 
+            geom_polygon(data = tidytract2016_spatial, 
                          #because of the left_join, we have long.x and long.y
                          #that's going to be a huge problem!!
                          #maybe we do it without the left_join ?
-                   aes(x=long.x, y=lat.x, group=group, fill=hhs_200k_more),
+                   aes(x=long, y=lat, group=group, fill=hhs_200k_more),
                          #input$fill_opts), 
                    alpha = 0.6) +
             geom_polygon(data = neighborhoods_all, aes(x=long, y=lat, group=group), 
                          col = input$bounds_opt, 
                            fill = 'transparent') +
             geom_point(data = street_trees_all_filtered(),
-                       aes(x=X, y=Y), col = 'dark green',
-                       alpha = input$alpha_opts, 
-                       size = 0.65)  +
+                       aes(x=X, y=Y, size=`Canopy Coverage`), col = 'dark green',
+                       alpha = input$alpha_opts)  +
       scale_fill_gradientn(colours = heat.colors(7), na.value = 'transparent') +
       theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
       theme_bw()

@@ -46,8 +46,6 @@ select_fill_options <- c("total_population", "population_density", "white",
                          "Mon_Khmer_", "Laotian", "Vietnamese", "Tagalog",
                          "Arabic", "African")
 # need to rename some of these variables ^
-alpha_options <- c(1, 0.95, 0.9, 0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.55, 0.5, 
-                   0.45, 0.4, 0.35, 0.3, 0.25, 0.2, 0.15, 0.1, 0.05)
 bounds_options <- c("black", "white", "transparent")
 #min_tree <- nrow(tree_sample)
 #max_tree <- nrow(tree_sample)
@@ -67,19 +65,18 @@ ui <- fluidPage(
       selectInput("bounds_opt", "Toggle Neighborhood Boundaries",
                   choices = bounds_options),
       # alpha opts could also be a slider
-      selectInput("alpha_opts", "Tree Color Options",
-                  choices = alpha_options),
+      sliderInput("alpha_opts", "Tree Color Options",
+                  min = 0, max = 1, value = 0.01),
       sliderInput("tree_sample", "Select Trees in Sample", 
                   min=0, max=216751, value=10000)
       # , dataTableOutput() -> data table for a selected neighborhood/censustract?
     ),
     
-    # Show a plot of the generated distribution
-    mainPanel(
+      mainPanel(
       plotOutput("geom_map"))
   ))
 
-##Server is where all of the computations happen
+
 server <- function(input, output) {
   
   street_trees_all_filtered <- reactive({
@@ -88,16 +85,17 @@ server <- function(input, output) {
   
   output$geom_map <- renderPlot({
     
-    ggmap(portland, base_layer = 
-      ggplot(data = lep_tidytract2016, 
-        aes(x=long, y=lat, group=group, fill=input$fill_opts), 
-        alpha = 0.6) +
-      geom_polygon(data = neighborhoods_all, aes(x=long, y=lat, group=group), 
+    ggmap(portland) + 
+      geom_polygon(data = lep_tidytract2016, 
+                   aes(x=long, y=lat, group=group, fill=input$fill_opts), 
+                   alpha = 0.6) +
+      geom_polygon(data = neighborhoods_all, 
+                   aes(x=long, y=lat, group=group), 
                    col = input$bounds_opt, fill = 'transparent') +
       geom_point(data = street_trees_all_filtered(),
                  aes(x=X, y=Y), col = 'dark green',
                  alpha = input$alpha_opts, size = 0.75) +
-      scale_fill_gradientn(colours = terrain.colors(7), na.value = 'transparent') +
+      scale_fill_gradientn(colours = heat.colors(7), na.value = 'transparent') +
       theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
       theme_bw()
   
@@ -107,6 +105,6 @@ server <- function(input, output) {
   #output$data_table <- renderTable({}) 
 }
 
-# Run the application 
+
 shinyApp(ui = ui, server = server)
 
