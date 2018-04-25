@@ -5,7 +5,7 @@ library(readxl)
 library(lubridate)
 library(DT)
 
-tidytract2016 <- read_csv("data/tidytract2016.csv")
+tidytract2016 <- read_csv("tidytract2016.csv")
 
 column_options <- c("total_population", "population_density", "area", "white", "black", "am_indian", "asian", 
                     "pac_isl", "other_race", "two_more_races", "below_hs", "hs_degree", "some_college", 
@@ -19,51 +19,56 @@ column_options <- c("total_population", "population_density", "area", "white", "
                     "owner_occupied_units", "10_less_commute", "10_19_commute", "20_29_commute", "30_39_commute", 
                     "40_59_commute", "60_89_commute", "90_more_commute", "no_commute")
 
+library(shiny)
 
-fluidPage(
-  
-  title = 'Select Table Rows',
-  
-  h1('ACS Data'),
-  
-  fluidRow(
-    column(6, DT::dataTableOutput('x1')),
-    column(6, plotOutput('x2', height = 500))
-  ),
-  
-  hr(),
-  
-  h1('A Server-side Table'),
-  
-  fluidRow(
-    column(9, DT::dataTableOutput('x3')),
-    column(3, verbatimTextOutput('x4'))
-  )
-  
-)
-shinyServer(function(input, output, session) {
-  
-  output$x1 = DT::renderDataTable(tidytract2016, server = FALSE)
-  
-  # highlight selected rows in the scatterplot
-  output$x2 = renderPlot({
-    s = input$x1_rows_selected
-    par(mar = c(4, 4, 1, .1))
-    plot(tidytract2016)
-    if (length(s)) points(tidytract2016[s, , drop = FALSE], pch = 19, cex = 2)
+data.input <- tidytract2016
+
+ui <- fluidPage(titlePanel("Test Explorer"),
+                sidebarLayout(
+                  sidebarPanel(
+                    selectizeInput(
+                      "show_vars",
+                      "Columns to show:",
+                      choices = colnames(data.input),
+                      multiple = TRUE,
+                      selected = c("qualifying_name", "med_family_income", "unemployment_rate")
+                    ),
+                    actionButton("button", "Load Data"),
+                    uiOutput("category1")
+                  ),
+                  mainPanel(tableOutput("table"))
+                ))
+server <- function(input, output, session) {
+  data.react <- eventReactive(input$button, {
+    data.input[, input$show_vars]
   })
-  
-  # server-side processing
-  tidytract20162 = tidytract2016[, 1:8]
-  output$x3 = DT::renderDataTable(tidytract20162, server = TRUE)
-  
-  # print the selected indices
-  output$x4 = renderPrint({
-    s = input$x3_rows_selected
-    if (length(s)) {
-      cat('These rows were selected:\n\n')
-      cat(s, sep = ', ')
-    }
+  observeEvent(input$button, {
+    output$category1 <- renderUI({
+      data.sel <- data.react()
+      selectizeInput('cat1',
+                     'Choose Tract',
+                     choices = c("All", sort(as.character(
+                       unique(data.sel$qualifying_name)
+                     ))),
+                     selected = "All")
+    })
+    
+    df_subset <- eventReactive(input$cat1, {
+      data.sel <- data.react()
+      if (input$cat1 == "All") {
+        data.sel
+      }
+      else{
+        data.sel[data.sel$qualifying_name == input$cat1,]
+      }
+    })
+    
+
+    output$table <- renderTable({
+      df_subset()
+      
+    })
   })
-  
-})
+}
+
+shinyApp(ui, server)
