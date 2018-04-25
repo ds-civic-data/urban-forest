@@ -55,13 +55,13 @@ ui <- navbarPage(
              sidebarPanel(
                selectInput("fill_opts", "Select Data Fill",
                            choices = select_fill_options),
-               selectInput("bounds_opts", "Toggle Neighborhood Boundaries",
-                           choices = bounds_options),
+               checkboxInput("bounds_opts", "Toggle Neighborhood Boundaries",
+                             value = FALSE),
                # alpha opts could also be a slider
                sliderInput("alpha_opts", "Select Tree Transparency",
-                           min = 0, max = 1, value = 0.01),
+                           min = 0, max = 1, value = 0.03),
                sliderInput("tree_sample", "Select Trees in Sample", 
-                           min=0, max=216751, value=10000)),
+                           min=0, max=216751, value=100000)),
              mainPanel(plotOutput("geom_map")))),
   tabPanel("Data Table Output"),
   # dataTableOutput(), 
