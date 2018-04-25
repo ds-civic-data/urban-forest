@@ -49,29 +49,26 @@ bounds_options <- c("black", "white", "transparent")
 
 
 # Define UI for application that plots 
-ui <- fluidPage(
-  
-  # Application title
-  titlePanel("Portland: Trees & Demographics"),
-  
-  sidebarLayout(
-    sidebarPanel(
-      selectInput("fill_opts", "Select Data Fill",
-                  choices = select_fill_options),
-      selectInput("bounds_opts", "Toggle Neighborhood Boundaries",
-                  choices = bounds_options),
-      # alpha opts could also be a slider
-      sliderInput("alpha_opts", "Select Tree Transparency",
-                  min = 0, max = 1, value = 0.01),
-      sliderInput("tree_sample", "Select Trees in Sample", 
-                  min=0, max=216751, value=10000)
-      # , dataTableOutput() -> data table for a selected neighborhood/censustract?
-    ),
-    
-    # Show a plot of the generated distribution
-    mainPanel(
-      plotOutput("geom_map"))
-  ))
+ui <- navbarPage(
+  "Portland: Trees & Demographics", fluid = T, collapsable = T,
+    tabPanel("Map Visualization",
+               sidebarLayout(
+                 sidebarPanel(
+                   selectInput("fill_opts", "Select Data Fill",
+                               choices = select_fill_options),
+                   selectInput("bounds_opts", "Toggle Neighborhood Boundaries",
+                               choices = bounds_options),
+                   # alpha opts could also be a slider
+                   sliderInput("alpha_opts", "Select Tree Transparency",
+                               min = 0, max = 1, value = 0.01),
+                   sliderInput("tree_sample", "Select Trees in Sample", 
+                               min=0, max=216751, value=10000)),
+                 mainPanel(plotOutput("geom_map")))),
+    tabPanel("Data Table Output"),
+ # dataTableOutput(), 
+    tabPanel("Regression Analysis")
+
+  )
 
 ##Server is where all of the computations happen
 server <- function(input, output) {
@@ -96,7 +93,10 @@ server <- function(input, output) {
                          col = input$bounds_opts, 
                            fill = 'transparent') +
             geom_point(data = street_trees_all_filtered(),
-                       aes(x=X, y=Y, size=`Canopy Coverage`), col = 'dark green',
+                       aes(x=X, y=Y #, size=`Canopy Coverage`
+                           ), 
+                       col = 'dark green',
+                       size = 0.3,
                        alpha = input$alpha_opts)  +
       scale_fill_gradientn(colours = heat.colors(7), na.value = 'transparent') +
       theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
