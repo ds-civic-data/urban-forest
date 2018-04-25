@@ -41,11 +41,7 @@ select_fill_options <- c("total_population", "population_density", "white",
                          "renter_occupied_units", "owner_occupied_units",
                          "10_less_commute", "10_19_commute", "20_29_commute",
                          "30_39_commute", "40_59_commute", "60_89_commute",
-                         "90_more_commute", "no_commute", "Total_Pop_",
-                         "Spanish", "Russian", "Chinese", "Japanese", "Korean",
-                         "Mon_Khmer_", "Laotian", "Vietnamese", "Tagalog",
-                         "Arabic", "African")
-sfo <- c("hhs_less_10k", "hhs_200k_more", "no_commute")
+                         "90_more_commute", "no_commute")
 # need to rename some of these variables ^
 bounds_options <- c("black", "white", "transparent")
 #min_tree <- nrow(tree_sample)
@@ -61,8 +57,8 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       selectInput("fill_opts", "Select Data Fill",
-                  choices = sfo),
-      selectInput("bounds_opt", "Toggle Neighborhood Boundaries",
+                  choices = select_fill_options),
+      selectInput("bounds_opts", "Toggle Neighborhood Boundaries",
                   choices = bounds_options),
       # alpha opts could also be a slider
       sliderInput("alpha_opts", "Select Tree Transparency",
@@ -91,11 +87,13 @@ server <- function(input, output) {
                          #because of the left_join, we have long.x and long.y
                          #that's going to be a huge problem!!
                          #maybe we do it without the left_join ?
-                   aes(x=long, y=lat, group=group, fill=hhs_200k_more),
-                         #input$fill_opts), 
+                   aes_string(x=tidytract2016_spatial$long, 
+                              y=tidytract2016_spatial$lat, 
+                              group=tidytract2016_spatial$group, 
+                              fill=input$fill_opts), 
                    alpha = 0.6) +
             geom_polygon(data = neighborhoods_all, aes(x=long, y=lat, group=group), 
-                         col = input$bounds_opt, 
+                         col = input$bounds_opts, 
                            fill = 'transparent') +
             geom_point(data = street_trees_all_filtered(),
                        aes(x=X, y=Y, size=`Canopy Coverage`), col = 'dark green',
