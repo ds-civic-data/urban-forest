@@ -65,7 +65,8 @@ ui <- navbarPage(
              mainPanel(plotOutput("geom_map")))),
   tabPanel("Data Table Output"),
   # dataTableOutput(), 
-  tabPanel("Regression Analysis")
+  tabPanel("Regression Analysis"),
+  tabPanel("README")
   
 )
 
