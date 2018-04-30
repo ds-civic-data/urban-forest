@@ -17,6 +17,9 @@ portland <- get_map(location = c(lon = -122.66, lat = 45.531), zoom = 11,
                     maptype = "terrain")
 lep_tidytract2016 <- read_csv('~/urban-forest/data/lep_tidytract2016.csv', 
                               col_names = T)
+n_portland <- get_map(location = c(lon = -122.66, lat = 45.531), zoom = 12, 
+                      maptype = "terrain")
+
 
 lep_all %>%
   filter(group >= 3.1) %>%
