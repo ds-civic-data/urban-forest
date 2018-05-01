@@ -15,6 +15,8 @@ lep_tidytract2016 <- read_csv('~/urban-forest/data/lep_tidytract2016.csv',
                               col_names = T)
 tidytract2016_spatial <- read_csv('~/urban-forest/data/tidytract2016_spatial.csv',
                                   col_names = T)
+tidytract2016_sp_cent <- read_csv('~/urban-forest/data/tidytract2016_sp_cent.csv',
+                                  col_names = T)
 tidytract2016 <- read_csv("~/urban-forest/data/tidytract2016.csv",
                           col_names = T)
 street_trees_all <- read_csv('~/urban-forest/data/street_trees_all.csv', 
@@ -106,10 +108,23 @@ ui <- navbarPage(
                  uiOutput("category1")
                ),
                mainPanel(tableOutput("table")))),
-    tabPanel("Regression Analysis"),
+    tabPanel("Regression Analysis",
+             sidebarLayout(
+               sidebarPanel(
+                 selectizeInput(
+                   "show_vars_reg",
+                   "Regression Variables:",
+                   choices = colnames(tidytract2016_sp_cent[22:73]),
+                   multiple = F,
+                   selected = 'med_family_income'
+                 ),
+                 actionButton('button_reg', 'Load Regression'),
+                 uiOutput("x_val")),
+             mainPanel(uiOutput('regression'))
+             ),
   tabPanel("Read Me Files")
 
-  )
+  ))
 
 
 server <- function(input, output) {
@@ -119,7 +134,7 @@ server <- function(input, output) {
   })
   
   map_reactive <- reactive({
-    ggmap(input$quad_opts)
+    ggmap(input$quad_optS)
   })
   
   output$geom_map <- renderPlot({
@@ -198,6 +213,34 @@ server <- function(input, output) {
       
     })
   })
+  
+  regression.react <- eventReactive(input$button_reg, {
+    tidytract2016_sp_cent[, input$show_vars_reg]
+  })
+  
+  
+  observeEvent(input$button_reg, {
+    reg <- renderUI({
+      tidytract2016_sp_cent.lm <- tidytract2016_sp_cent.react()
+      lm(population_density 
+         # this ^ will be canopy coverage as soon as we have it
+         ~ input$x_val + dist,
+         data = tidytract2016_sp_cent)
+      
+      summary(tidytract2016_sp_cent.lm)
+    })
+    reg_subset <- eventReactive(input$x_val, {
+      tidytract2016_sp_cent.lm <- tidytract2016_sp_cent.react()
+      
+
+      })
+    })
+  
+  output$regression <- renderUI({
+    reg()
+    })
+  
+  
 }
 
 # Run the application 
