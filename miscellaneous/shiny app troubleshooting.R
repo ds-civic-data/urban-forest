@@ -21,8 +21,19 @@ street_trees_all <- read_csv('~/urban-forest/data/street_trees_all.csv',
                              col_names = T)
 neighborhoods_all <- read_csv('~/urban-forest/data/neighborhoods_all.csv', 
                               col_names = T)
+#maps
 portland <- get_map(location = c(lon = -122.66, lat = 45.531), zoom = 11, 
                     maptype = "terrain")
+n_portland <- get_map(location = c(lon = -122.69, lat = 45.56), zoom = 12, 
+                      maptype = "terrain")
+se_portland <- get_map(location = c(lon = -122.59, lat = 45.48), zoom = 12, 
+                       maptype = "terrain")
+sw_portland <- get_map(location = c(lon = -122.73, lat = 45.485), zoom = 12, 
+                       maptype = "terrain")
+ne_portland <- get_map(location = c(lon = -122.59, lat = 45.55), zoom = 12, 
+                       maptype = "terrain")
+nw_portland <- get_map(location = c(lon = -122.745, lat = 45.54), zoom = 12, 
+                       maptype = "terrain")
 
 select_fill_options <- c("total_population", "population_density", "white", 
                          "black", "am_indian", "asian", "pac_isl", "other_race",
@@ -44,6 +55,8 @@ select_fill_options <- c("total_population", "population_density", "white",
                          "90_more_commute", "no_commute")
 
 bounds_options <- c("black", "white", "transparent")
+quad_options <- c("n_portland", "nw_portland", "ne_portland", "sw_portland",
+                  "se_portland")
 
 
 ui <- navbarPage(
@@ -58,8 +71,26 @@ ui <- navbarPage(
                    sliderInput("alpha_opts", "Select Tree Transparency",
                                min = 0, max = 1, value = 0.03),
                    sliderInput("tree_sample", "Select Trees in Sample", 
-                               min=0, max=216751, value=100000)),
-                 mainPanel(plotOutput("geom_map")))),
+                               min=0, max=216751, value=100000),
+                   selectInput("quad_opts", "Select City Quadrant",
+                               choices = quad_options)),
+                 mainPanel(
+                   plotOutput("geom_map"),
+                   plotOutput("quadrant_map"))
+                 #,
+                 #sidebarPanel(
+                #   selectInput("quad_opts", "Select City Quadrant",
+                #               choices = quad_options),
+                #   selectInput("fill_opts", "Select Data Fill",
+                #               choices = select_fill_options),
+                #   checkboxInput("bounds_opts", "Toggle Neighborhood Boundaries",
+                #                 value = FALSE),
+                #   sliderInput("alpha_opts", "Select Tree Transparency",
+                #               min = 0, max = 1, value = 0.03),
+                #   sliderInput("tree_sample", "Select Trees in Sample", 
+                #               min=0, max=216751, value=100000)),
+                # mainPanel(plotOutput('quadrant_map'))
+                 )),
     tabPanel("Data Table Output",
              sidebarLayout(
                sidebarPanel(
@@ -87,6 +118,10 @@ server <- function(input, output) {
     sample_n(street_trees_all, size = input$tree_sample, replace = F)
   })
   
+  map_reactive <- reactive({
+    ggmap(input$quad_opts)
+  })
+  
   output$geom_map <- renderPlot({
     
     ggmap(portland) +
@@ -109,6 +144,30 @@ server <- function(input, output) {
       theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
       theme_bw()
   })
+  
+  output$quadrant_map <- renderPlot({
+    
+    map_reactive +
+      geom_polygon(data = tidytract2016_spatial, 
+                   aes_string(x=tidytract2016_spatial$long, 
+                              y=tidytract2016_spatial$lat, 
+                              group=tidytract2016_spatial$group, 
+                              fill=input$fill_opts), 
+                   alpha = 0.6) +
+      geom_polygon(data = neighborhoods_all, aes(x=long, y=lat, group=group), 
+                   col = input$bounds_opts, 
+                   fill = 'transparent') +
+      geom_point(data = street_trees_all_filtered(),
+                 aes(x=X, y=Y), 
+                 col = 'dark green',
+                 size = 0.3,
+                 alpha = input$alpha_opts)  +
+      scale_fill_gradientn(colours = heat.colors(7), na.value = 'transparent') +
+      theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
+      theme_bw()
+    
+  })
+  
   tidytract2016.react <- eventReactive(input$button, {
     tidytract2016[, input$show_vars]
   })

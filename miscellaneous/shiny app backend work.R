@@ -8,6 +8,7 @@ library(rgdal)
 library(ggmap)
 library(maptools)
 library(raster)
+library(rgeos)
 
 lep_all <- read_csv('~/urban-forest/data/lep_all.csv', 
                               col_names = T)
@@ -17,9 +18,28 @@ portland <- get_map(location = c(lon = -122.66, lat = 45.531), zoom = 11,
                     maptype = "terrain")
 lep_tidytract2016 <- read_csv('~/urban-forest/data/lep_tidytract2016.csv', 
                               col_names = T)
-n_portland <- get_map(location = c(lon = -122.66, lat = 45.531), zoom = 12, 
-                      maptype = "terrain")
+n_portland <- get_map(location = c(lon = -122.69, lat = 45.56), zoom = 12, 
+                      maptype = "terrain") 
 
+ggmap(n_portland)
+
+se_portland <- get_map(location = c(lon = -122.59, lat = 45.48), zoom = 12, 
+                       maptype = "terrain")
+ggmap(se_portland)
+
+sw_portland <- get_map(location = c(lon = -122.73, lat = 45.485), zoom = 12, 
+                       maptype = "terrain")
+
+ggmap(sw_portland)
+
+nw_portland <- get_map(location = c(lon = -122.745, lat = 45.54), zoom = 12, 
+                       maptype = "terrain")
+
+ggmap(nw_portland)
+
+ne_portland <- get_map(location = c(lon = -122.59, lat = 45.55), zoom = 12, 
+                       maptype = "terrain")
+ggmap(ne_portland)
 
 lep_all %>%
   filter(group >= 3.1) %>%
@@ -53,6 +73,8 @@ n_name <- street_trees_thin %>%
   distinct(Neighborhood) %>%
   dplyr::select(Neighborhood) %>%
   print()
+
+
 
 #NE
 #10 KING 
