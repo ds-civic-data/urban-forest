@@ -24,6 +24,8 @@ centroids_tt <- cbind(centroids_tt, dist)
 tidytract2016_sp_cent <- left_join(centroids_tt, tidytract2016_spatial,
                                    by = c('PID' = 'id'))
 
+write_csv(tidytract2016_sp_cent, 'tidytract2016_sp_cent.csv')
+
 m1 <- lm(population_density ~ white + black + med_family_income + dist,
          data = tidytract2016_sp_cent)
 summary(m1)
