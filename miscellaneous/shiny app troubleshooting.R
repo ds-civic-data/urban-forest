@@ -57,12 +57,12 @@ select_fill_options <- c("total_population", "population_density", "white",
                          "90_more_commute", "no_commute")
 
 bounds_options <- c("black", "white", "transparent")
-quad_options <- c("n_portland", "nw_portland", "ne_portland", "sw_portland",
-                  "se_portland")
+quad_options <- c(n_portland, nw_portland, ne_portland, sw_portland,
+                  se_portland)
 
 
 ui <- navbarPage(
-  "Portland: Trees & Demographics", fluid = T, collapsable = T,
+  "Portland: Trees & Demographics", fluid = T, collapsible = T,
     tabPanel("Map Visualization",
                sidebarLayout(
                  sidebarPanel(
@@ -77,7 +77,9 @@ ui <- navbarPage(
                    selectInput("quad_opts", "Select City Quadrant",
                                choices = quad_options)),
                  mainPanel(
-                   plotOutput("geom_map"),
+                   plotOutput("geom_map", click = "plot_click"),
+                   h4('Clicked Tract'),
+                   tableOutput('plot_clickedpoints'),
                    plotOutput("quadrant_map"))
                  #,
                  #sidebarPanel(
@@ -122,19 +124,16 @@ ui <- navbarPage(
                  uiOutput("x_val")),
              mainPanel(uiOutput('regression'))
              ),
-  tabPanel("Read Me Files")
+  tabPanel("About",
+           mainPanel())
 
   ))
 
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   
   street_trees_all_filtered <- reactive({
     sample_n(street_trees_all, size = input$tree_sample, replace = F)
-  })
-  
-  map_reactive <- reactive({
-    ggmap(input$quad_optS)
   })
   
   output$geom_map <- renderPlot({
@@ -160,9 +159,22 @@ server <- function(input, output) {
       theme_bw()
   })
   
+  map_reactive <- reactive({
+   # ifelse(coordinates(input$plot_click) %in% c(-122.67, -122.73, 45.53, 45.59),
+    #  n_portland, 
+     # ifelse(coordinates(input$plot_click) %in% c(-122.56, -122.63, 45.52, 45.58)),
+    #  ne_portland, 
+    #  ifelse(coordinates(input$plot_click) %in% c(-122.56, -122.63, 45.519999, 45.44)),
+    #  se_portland, ifelse(coordinates(input$plot_click) %in% c(-122.69, -122.77, 45.52, 45.44)),
+    #  sw_portland, nw_portland)
+    
+    input$quad_opts
+  })
+  
   output$quadrant_map <- renderPlot({
     
-    map_reactive +
+    map_reactive() %>%
+      ggmap() +
       geom_polygon(data = tidytract2016_spatial, 
                    aes_string(x=tidytract2016_spatial$long, 
                               y=tidytract2016_spatial$lat, 
