@@ -26,14 +26,3 @@ tidytract2016_sp_cent <- left_join(centroids_tt, tidytract2016_spatial,
 
 write_csv(tidytract2016_sp_cent, 'tidytract2016_sp_cent.csv')
 
-m1 <- lm(population_density ~ white + black + med_family_income + dist,
-         data = tidytract2016_sp_cent)
-summary(m1)
-
-m2 <- lm(population_density ~ white + black + med_family_income,
-         data = tidytract2016_sp_cent)
-summary(m2)
-
-m3 <- lm(population_density ~ white + black + med_family_income + no_commute + below_hs + dist,
-         data = tidytract2016_sp_cent)
-summary(m3)
