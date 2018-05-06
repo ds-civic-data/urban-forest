@@ -6,14 +6,17 @@ shinyApp(
     selectInput("variable2", "Variable 2:",
                 colnames(tidytract2016),
                 selected = "owner_occupied_units"),
-    fluidRow(column(6, tableOutput("data")),
+    fluidRow(column(6, DT::dataTableOutput("mytable")),
              column(6, plotOutput("outplot")))
   ),
   server = function(input, output) {
-    output$data <- renderTable({
+    output$mytable <- DT::renderDataTable({
       tidytract2016[, c("qualifying_name", input$variable1, input$variable2), drop = FALSE]
     }, rownames = F)
     output$outplot <- renderPlot({
-      ggplot(tidytract2016, aes_string(x = input$variable1, y = input$variable2)) +
-        geom_point()  })
+    s = input$mytable_rows_selected
+    plot(tidytract2016[, c(input$variable1, input$variable2), drop = FALSE])
+    if (length(s)) points(tidytract2016[s, c(input$variable1, input$variable2), drop = FALSE], pch = 19, cex = 2)
   })
+})
+
