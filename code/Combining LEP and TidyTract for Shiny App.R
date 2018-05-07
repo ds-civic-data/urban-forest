@@ -17,7 +17,7 @@ lep_tidytract2016 <- left_join(tidytract2106_spatial, lep_all,
   dplyr::select(-STATE, -COUNTY, -STATEFP, -COUNTYFP, -AFFGEOID, -OBJECTID, 
                 -GEO_ID, -Geography, -Shape_Leng, -Shape_Area, -hole.x, -piece.x,
                 -ALAND, -AWATER, -hole.y, -LSAD.x, -LSAD.y, -Id2, -piece.y, -id.y, 
-                -order.x, -id.x, -qualifying_name, -Other_Slav, -Other_Indi,
+                -order.x, -id.x, -Other_Slav, -Other_Indi,
                 -Other_Indo, -Other_Asia, -Other_Paci) %>%
   rename('group' = TRACTCE)
 
