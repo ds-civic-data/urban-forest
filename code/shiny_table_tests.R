@@ -1,17 +1,17 @@
 shinyApp(
   ui = fluidPage(
     selectInput("variable1", "Variable 1:",
-                colnames(tidytract2016),
-                selected = "med_family_income"),
+                colnames(tidytract2016[, c(3:5, 13:19, 27:56)]),
+                selected = "% Population: Doctorate Degree"),
     selectInput("variable2", "Variable 2:",
-                colnames(tidytract2016),
-                selected = "owner_occupied_units"),
-    fluidRow(column(6, DT::dataTableOutput("mytable")),
-             column(6, plotOutput("outplot")))
+                colnames(tidytract2016[, c(3:5, 13:19, 27:56)]),
+                selected = "Median Family Income"),
+    fluidRow(column(7, DT::dataTableOutput("mytable")),
+             column(5, plotOutput("outplot")))
   ),
   server = function(input, output) {
     output$mytable <- DT::renderDataTable({
-      tidytract2016[, c("qualifying_name", input$variable1, input$variable2), drop = FALSE]
+      tidytract2016[, c("Census Tract", input$variable1, input$variable2), drop = FALSE]
     }, rownames = F)
     output$outplot <- renderPlot({
     s = input$mytable_rows_selected
