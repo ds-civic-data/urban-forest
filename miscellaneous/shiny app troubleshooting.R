@@ -70,7 +70,7 @@ ui <- navbarPage(
                sidebarLayout(
                  sidebarPanel(
                    selectInput("fill_opts", "Select Data Fill",
-                               choices = select_fill_options),
+                               choices = colnames(tidytract2016_spatial[, c(18:71)])),
                    checkboxInput("bounds_opts", "Toggle Neighborhood Boundaries",
                                value = FALSE),
                    sliderInput("alpha_opts", "Select Tree Transparency",
