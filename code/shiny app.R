@@ -29,7 +29,8 @@ portland <- get_map(location = c(lon = -122.66, lat = 45.531), zoom = 11,
                     maptype = "terrain")
 ##specify what categories we want to color with
 select_fill_options <- c("`Total Population`", "`Population Density (Per Sq. Mile)`", 
-                         "`Area (Land, in Sq. Miles)`", "`% Total Population: White Alone`", 
+                       #  "`Area (Land, in Sq. Miles)`", 
+                         "`% Total Population: White Alone`", 
                          "`% Total Population: Black or African American Alone`", 
                          "`% Total Population: American Indian and Alaska Native Alone`", 
                          "`% Total Population: Asian Alone`", "`% Total Population: Native Hawaiian and Other Pacific Islander Alone`", 
@@ -54,11 +55,12 @@ bounds_options <- c("black", "white", "transparent")
 
 # Define UI for application that plots 
 ui <- navbarPage(
-  "Portland: Trees & Demographics", fluid = T, collapsable = T,
+  "Portland: Trees & Demographics", fluid = T, collapsible = T,
   tabPanel("Map Visualization",
            sidebarLayout(
              sidebarPanel(
                selectInput("fill_opts", "Select Data Fill",
+                           # this might not work
                            choices = select_fill_options),
                checkboxInput("bounds_opts", "Toggle Neighborhood Boundaries",
                              value = FALSE),
@@ -69,20 +71,15 @@ ui <- navbarPage(
                            min=0, max=216751, value=100000)),
              mainPanel(plotOutput("geom_map")))),
   tabPanel("Data Table Output",
-           sidebarLayout(
-             sidebarPanel(
-               selectizeInput(
-                 "show_vars",
-                 "Columns to show:",
-                 choices = colnames(tidytract2016),
-                 multiple = TRUE,
-                 selected = c("qualifying_name", "med_family_income", 
-                              "unemployment_rate")
-               ),
-               actionButton("button", "Load Data"),
-               uiOutput("category1")
-             ),
-             mainPanel(tableOutput("table")))),
+           selectInput("variable1", "Variable 1:",
+                       colnames(tidytract2016[, c(3:5, 13:19, 27:56)]),
+                       selected = "% Population: Doctorate Degree"),
+           selectInput("variable2", "Variable 2:",
+                       colnames(tidytract2016[, c(3:5, 13:19, 27:56)]),
+                       selected = "Median Family Income"),
+           fluidRow(column(7, DT::dataTableOutput("mytable")),
+                    column(5, plotOutput("outplot"))),
+             mainPanel(tableOutput("table"))),
   tabPanel("Regression Analysis"),
   tabPanel("README")
   
@@ -120,36 +117,15 @@ server <- function(input, output) {
     
   })
   
-  tidytract2016.react <- eventReactive(input$button, {
-    tidytract2016[, input$show_vars]
+  output$mytable <- DT::renderDataTable({
+    tidytract2016[, c("Census Tract", input$variable1, input$variable2), drop = FALSE]
+  }, rownames = F)
+  output$outplot <- renderPlot({
+    s = input$mytable_rows_selected
+    plot(tidytract2016[, c(input$variable1, input$variable2), drop = FALSE])
+    if (length(s)) points(tidytract2016[s, c(input$variable1, input$variable2), drop = FALSE], pch = 19, cex = 2)
   })
-  observeEvent(input$button, {
-    output$category1 <- renderUI({
-      tidytract2016.sel <- tidytract2016.react()
-      selectizeInput('cat1',
-                     'Choose Tract',
-                     choices = c("All", sort(as.character(
-                       unique(tidytract2016.sel$qualifying_name)
-                     ))),
-                     selected = "All")
-    })
-    
-    df_subset <- eventReactive(input$cat1, {
-      tidytract2016.sel <- tidytract2016.react()
-      if (input$cat1 == "All") {
-        tidytract2016.sel
-      }
-      else{
-        tidytract2016.sel[tidytract2016.sel$qualifying_name == input$cat1,]
-      }
-    })
-    
-    
-    output$table <- renderTable({
-      df_subset()
       
-    })
-  })
 }
 
 shinyApp(ui = ui, server = server)
