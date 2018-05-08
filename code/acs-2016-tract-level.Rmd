@@ -78,5 +78,16 @@ tidytract2016$`Census Tract` <- paste0("Census Tract ", tidytract2016$`Census Tr
 tidytract2016 <- tidytract2016 %>%
   select(fips, `Census Tract`, `Total Population`:`% Workers with No Commute`)
 
-write_csv(tidytract2016, "tidytract2016.csv")
+acs2016tractarea <- read_csv("~/urban-forest/data-raw/R11671742_SL140.csv") %>%
+  filter(`Households:_7` != "SE_T080_001" & `Total Population` != "NA") %>%
+  select(`FIPS`, `Area (Land)`, `Area (Water)`)
+acs2016tractarea[,1:3] <- sapply(acs2016tractarea[,1:3], as.numeric)
+acs2016tractarea <- acs2016tractarea %>%
+  mutate(total_area = `Area (Land)` + `Area (Water)`,
+         percent_water = `Area (Water)`/total_area) %>%
+  select(FIPS, percent_water)
+tidytract2016 <- left_join(tidytract2016, acs2016tractarea, by = c("fips" = "FIPS"))
+
+
+write_csv(tidytract2016, "~/urban-forest/data/tidytract2016.csv")
 ```
