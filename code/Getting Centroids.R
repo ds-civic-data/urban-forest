@@ -26,15 +26,15 @@ install.packages("GISTools")
 library(GISTools)
 
 tt_coords <- tidytract2016_spatial %>%
-  dplyr::select(long, lat, order, group, hhs_200k_more) %>%
+  dplyr::select(long, lat, order, group, `Total Population`) %>%
   rename('X' = long, 'Y' = lat, 'PID' = group, 'POS' = order) %>%
-  filter(!is.na(hhs_200k_more)) 
+  filter(!is.na(`Total Population`)) 
 
 centroids_tt <- calcCentroid(as.PolySet(tt_coords))
 
 ggmap(portland) +
   geom_polygon(data = tidytract2016_spatial, 
-               aes(x=long, y=lat, group=group, fill=hhs_200k_more), alpha = 0.6) +
+               aes(x=long, y=lat, group=group, fill=`Total Population`), alpha = 0.6) +
   #geom_polygon(data = neighborhoods_all, aes(x=long, y=lat, group=group), 
   #             col = 'dark grey', 
    #            fill = 'transparent') +
