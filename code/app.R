@@ -1,4 +1,4 @@
-## anything you load here can be seen by both ui and server
+## packages
 
 library(shiny)
 library(tidyverse)
@@ -13,20 +13,22 @@ library(raster)
 
 set.seed(666)
 ##load the data
-lep_tidytract2016 <- read_csv('~/urban-forest/data/lep_tidytract2016.csv', 
-                              col_names = T)
+# this is our census dataset, combined with spatial variables for map plotting
 tidytract2016_spatial <- read_csv('~/urban-forest/data/tidytract2016_spatial.csv',
                                   col_names = T)
+# a smaller census dataset for franks table
 tidytract2016 <- read_csv("~/urban-forest/data/tidytract2016.csv",
                           col_names = T)
-street_trees_thin <- read_csv('~/urban-forest/data/street_trees_thin.csv', 
-                              col_names = T)
+# this is the full street trees dataset
 street_trees_all <- read_csv('~/urban-forest/data/street_trees_all.csv', 
                              col_names = T)
+# this is spatial lines for the neighborhood boundaries
 neighborhoods_all <- read_csv('~/urban-forest/data/neighborhoods_all.csv', 
                               col_names = T)
+# this is a map of portland
 portland <- get_map(location = c(lon = -122.66, lat = 45.531), zoom = 11, 
-                    maptype = "terrain")
+                    maptype = "terrain", color = "bw")
+
 ##specify what categories we want to color with
 select_fill_options <- c("`Total Population`", "`Population Density (Per Sq. Mile)`", 
                        #  "`Area (Land, in Sq. Miles)`", 
@@ -51,25 +53,28 @@ select_fill_options <- c("`Total Population`", "`Population Density (Per Sq. Mil
                          "`% Workers with 20 to 40 Minute Commute`", "`% Workers with Over 40 Minute Commute`",
                          "`% Workers with No Commute`")
  
+# for boundary toggle
 bounds_options <- c("black", "white", "transparent")
 
 # Define UI for application that plots 
 ui <- navbarPage(
+  #title
   "Portland: Trees & Demographics", fluid = T, collapsible = T,
+  # first panel: maps
   tabPanel("Map Visualization",
            sidebarLayout(
              sidebarPanel(
                selectInput("fill_opts", "Select Data Fill",
-                           # this might not work
                            choices = select_fill_options),
                checkboxInput("bounds_opts", "Toggle Neighborhood Boundaries",
                              value = FALSE),
-               # alpha opts could also be a slider
                sliderInput("alpha_opts", "Select Tree Transparency",
                            min = 0, max = 1, value = 0.03),
                sliderInput("tree_sample", "Select Trees in Sample", 
                            min=0, max=216751, value=100000)),
+             # outputs
              mainPanel(plotOutput("geom_map")))),
+  # second panel: data table and base r scatterplot
   tabPanel("Data Table Output",
            selectInput("variable1", "Variable 1:",
                        colnames(tidytract2016[, c(3:5, 13:19, 27:56)]),
@@ -78,20 +83,27 @@ ui <- navbarPage(
                        colnames(tidytract2016[, c(3:5, 13:19, 27:56)]),
                        selected = "Median Family Income"),
            fluidRow(column(7, DT::dataTableOutput("mytable")),
+                    # output: scatterplot
                     column(5, plotOutput("outplot"))),
+           # output: interactive table
              mainPanel(tableOutput("table"))),
+  # third panel: our spatial regression with diagnostics
   tabPanel("Regression Analysis"),
-  tabPanel("README")
+  
+  # fourth panel: our about page, including downloadable links to some data
+  tabPanel("About")
   
 )
 
 
 server <- function(input, output) {
   
+  # this reactive takes random subets of the trees data
   street_trees_all_filtered <- reactive({
     sample_n(street_trees_all, size = input$tree_sample, replace = F)
   })
   
+  # this is the main map plot
   output$geom_map <- renderPlot({
     
     ggmap(portland) +
@@ -117,6 +129,7 @@ server <- function(input, output) {
     
   })
   
+  # FRANK WRITE STUFF IDK WHAT THESE DO
   output$mytable <- DT::renderDataTable({
     tidytract2016[, c("Census Tract", input$variable1, input$variable2), drop = FALSE]
   }, rownames = F)
