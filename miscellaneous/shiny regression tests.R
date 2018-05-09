@@ -23,3 +23,18 @@ summary(m2)
 m3 <- lm(population_density ~ white + black + med_family_income + no_commute + below_hs + dist,
          data = tidytract2016_sp_cent)
 summary(m3)
+
+tractCoverage <- read_csv('~/urban-forest/data/tractCoverage.csv', col_names = T)
+
+tscc <- left_join(tractCoverage, tidytract2016_sp_cent,
+                            by = c("GEOID" = "GEOID"))
+# 7 extra coverage values
+tt_sp_cent_cov <- tscc %>%
+  filter(!is.na(cent_x)) 
+
+m4 <- lm(cover ~ below_hs, tt_sp_cent_cov)
+summary(m4)
+
+
+
+write_csv(tt_sp_cent_cov, '~/urban-forest/data/tidytract2016_sp_cent.csv')
