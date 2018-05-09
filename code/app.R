@@ -25,6 +25,8 @@ street_trees_all <- read_csv('~/urban-forest/data/street_trees_all.csv',
 # this is spatial lines for the neighborhood boundaries
 neighborhoods_all <- read_csv('~/urban-forest/data/neighborhoods_all.csv', 
                               col_names = T)
+newtidytract2016 <- read_csv('~/urban-forest/data/newtidytract2016.csv', 
+                             col_names = T)
 # this is a map of portland
 portland <- get_map(location = c(lon = -122.66, lat = 45.531), zoom = 11, 
                     maptype = "terrain", color = "bw")
@@ -77,13 +79,12 @@ ui <- navbarPage(
   # second panel: data table and base r scatterplot
   tabPanel("Data Table Output",
            selectInput("variable1", "Variable 1:",
-                       colnames(tidytract2016[, c(3:5, 13:19, 27:56)]),
+                       colnames(newtidytract2016[, c(3:5, 13:19, 27:57)]),
                        selected = "% Population: Doctorate Degree"),
            selectInput("variable2", "Variable 2:",
-                       colnames(tidytract2016[, c(3:5, 13:19, 27:56)]),
-                       selected = "Median Family Income"),
+                       colnames(newtidytract2016[, c(3:5, 13:19, 27:57)]),
+                       selected = "% Canopy Coverage"),
            fluidRow(column(7, DT::dataTableOutput("mytable")),
-                    # output: scatterplot
                     column(5, plotOutput("outplot"))),
            # output: interactive table
              mainPanel(tableOutput("table"))),
@@ -131,12 +132,12 @@ server <- function(input, output) {
   
   # FRANK WRITE STUFF IDK WHAT THESE DO
   output$mytable <- DT::renderDataTable({
-    tidytract2016[, c("Census Tract", input$variable1, input$variable2), drop = FALSE]
+    newtidytract2016[, c("Census Tract", input$variable1, input$variable2), drop = FALSE]
   }, rownames = F)
   output$outplot <- renderPlot({
     s = input$mytable_rows_selected
-    plot(tidytract2016[, c(input$variable1, input$variable2), drop = FALSE])
-    if (length(s)) points(tidytract2016[s, c(input$variable1, input$variable2), drop = FALSE], pch = 19, cex = 2)
+    plot(newtidytract2016[, c(input$variable1, input$variable2), drop = FALSE])
+    if (length(s)) points(newtidytract2016[s, c(input$variable1, input$variable2), drop = FALSE], pch = 19, cex = 2)
   })
       
 }
