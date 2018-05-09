@@ -1,8 +1,8 @@
-newtidytract2016 <- left_join(tidytract2016, tractCoverage, by = c("fips" = "GEOID"))
+newtidytract2016 <- left_join(tidytract2016, canopy_data, by = c("fips" = "FIPS"))
 newtidytract2016 <- newtidytract2016 %>%
   mutate("denominator" = 1 - percent_water,
-         "% Canopy Coverage" = cover/denominator)
-newtidytract2016 <- newtidytract2016[,c(1:56, 60)]
+         "% Canopy Coverage" = sumOverCount/denominator)
+newtidytract2016 <- newtidytract2016[,c(1:56, 74)]
 write_csv(newtidytract2016, "~/urban-forest/data/newtidytract2016.csv")
 
 shinyApp(
