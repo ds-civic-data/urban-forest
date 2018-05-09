@@ -1,3 +1,14 @@
+---
+title: "lep_tidytrack2016 README"
+author: "Mitzi Zitler, Frank Gaunt, Clark Chang"
+date: "5/8/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 ## lep_tidytract2016
 This is a key for the columns in this dataset, listed from left to right, with headers to section off areas of the data.
 

@@ -1,0 +1,12 @@
+---
+title: "About Files"
+author: "Mitzi Zitler, Frank Gaunt, Clark Chang"
+date: "5/8/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### We Speak For the Trees !

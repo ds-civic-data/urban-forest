@@ -32,7 +32,32 @@ portland <- get_map(location = c(lon = -122.66, lat = 45.531), zoom = 11,
                     maptype = "terrain", color = "bw")
 
 ##specify what categories we want to color with
-select_fill_options <- c("`Total Population`", "`Population Density (Per Sq. Mile)`", 
+Population <- list("`Total Population`", "`Population Density (Per Sq. Mile)`")
+`Race & Ethnicity` <- list("`% Total Population: White Alone`", 
+                       "`% Total Population: Black or African American Alone`", 
+                       "`% Total Population: American Indian and Alaska Native Alone`", 
+                       "`% Total Population: Asian Alone`", "`% Total Population: Native Hawaiian and Other Pacific Islander Alone`", 
+                       "`% Total Population: Some Other Race Alone`", "`% Total Population: Two or More Races`")
+`Education & Unemployment` <- list("`% Population: Less than High School`", "`% Population: High School Graduate`", 
+               "`% Population: Some College`", "`% Population: Bachelor's Degree`", 
+               "`% Population: Master's Degree`", "`% Population: Professional School`", 
+               "`% Population: Doctorate Degree`", "`% Civilian Population in Labor Force 16 Years and Over: Unemployed`")
+`Income & Equity` <- list("`Median Family Income`", "`Per Capita Income (In 2016 Inflation Adjusted Dollars)`", 
+                       "`% Households: Less than $40,000`", "`% Households: $40,000 to $75,000`",
+                       "`% Households: $75,000 to $125,000`", "`% Households: $125,000 and Over`", 
+                       "`Gini Index`", "`% Households: No Earnings`", "`% Households: with Wage or Salary Income`", 
+                       "`% Households: with Self-Employment Income`", "`% Households: with Interest, Dividends, or Net Rental Income`", 
+                       "`% Households: with Social Security Income`", "`% Households: with Supplemental Security Income (Ssi)`", 
+                       "`% Households: with Public Assistance Income`", "`% Households: with Retirement Income`", 
+                       "`% Households: with Other Types of Income`")
+Housing <- list("`% Occupied Housing Units: Owner Occupied`", 
+             "`Median Gross Rent`")
+`Commute Time` <- list("`% Workers with Less than 20 Minute Commute`",
+                    "`% Workers with 20 to 40 Minute Commute`", "`% Workers with Over 40 Minute Commute`",
+                    "`% Workers with No Commute`")
+sfo <- list('Population', '`Race & Ethnicity`', '`Education & Unemployment`',
+         '`Income & Equity`', 'Housing', '`Commute Time`')
+select_fill_options <- c("`Total Population`", "`Population Density (Per Sq. Mile)`",
                        #  "`Area (Land, in Sq. Miles)`", 
                          "`% Total Population: White Alone`", 
                          "`% Total Population: Black or African American Alone`", 
@@ -67,13 +92,13 @@ ui <- navbarPage(
            sidebarLayout(
              sidebarPanel(
                selectInput("fill_opts", "Select Data Fill",
-                           choices = select_fill_options),
+                           choices = sfo),
                checkboxInput("bounds_opts", "Toggle Neighborhood Boundaries",
                              value = FALSE),
                sliderInput("alpha_opts", "Select Tree Transparency",
-                           min = 0, max = 1, value = 0.03),
+                           min = 0, max = 0.25, value = 0.02),
                sliderInput("tree_sample", "Select Trees in Sample", 
-                           min=0, max=216751, value=100000)),
+                           min=0, max=100000, value=50000)),
              # outputs
              mainPanel(plotOutput("geom_map")))),
   # second panel: data table and base r scatterplot
@@ -89,10 +114,12 @@ ui <- navbarPage(
            # output: interactive table
              mainPanel(tableOutput("table"))),
   # third panel: our spatial regression with diagnostics
-  tabPanel("Regression Analysis"),
+  tabPanel("Regression Analysis",
+           includeMarkdown('~/urban-forest/documents/Regression File.Rmd')),
   
   # fourth panel: our about page, including downloadable links to some data
-  tabPanel("About")
+  tabPanel("About",
+           includeMarkdown('~/urban-forest/documents/About File.Rmd'))
   
 )
 

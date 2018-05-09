@@ -8,6 +8,8 @@ library(rgdal)
 library(ggmap)
 library(maptools)
 library(raster)
+installed.packages('leaflet')
+library(leaflet)
 
 set.seed(666)
 ##load the data

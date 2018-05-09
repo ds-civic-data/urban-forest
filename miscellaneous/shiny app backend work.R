@@ -9,6 +9,7 @@ library(ggmap)
 library(maptools)
 library(raster)
 library(rgeos)
+library(leaflet)
 
 lep_all <- read_csv('~/urban-forest/data/lep_all.csv', 
                               col_names = T)
@@ -53,7 +54,7 @@ tidytract2016_spatial %>%
 
 ggmap(portland) +
   geom_polygon(data = tidytract2016_spatial, 
-         aes(x=long, y=lat, group=group, fill=hhs_200k_more),
+         aes(x=long, y=lat, group=group, fill=`% Workers with No Commute`),
          #input$fill_opts), 
          alpha = 0.6) 
 
@@ -74,6 +75,13 @@ n_name <- street_trees_thin %>%
   dplyr::select(Neighborhood) %>%
   print()
 
+leaflet(options = leafletOptions(minZoom = 10, maxZoom = 14)) %>%
+  addTiles() %>%
+  addMarkers(lng=-122.65, lat=45.52, popup="Portland") %>%
+  setView(zoom = 11, lng=-122.65, lat=45.52) %>%
+  addCircles(data=street_trees_all, lng=X, lat=Y, color='green', 
+             fillOpacity=0.01) %>%
+  print()
 
 
 #NE
