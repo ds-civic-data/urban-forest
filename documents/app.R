@@ -109,9 +109,10 @@ ui <- navbarPage(
                             "Population & Land" = c(colnames(newtidytract2016[,3:5])),
                             "Race & Ethnicity" = c(colnames(newtidytract2016[,13:19])),
                             "Education" = c(colnames(newtidytract2016[,27:33])),
-                            "Main Income & Employment Statistics" = c(colnames(newtidytract2016[,c(33,45,34,46)])),
+                            "Main Income & Employment Statistics" = c(colnames(newtidytract2016[,c(35,45,34,46)])),
                             "Household Income Sources" = c(colnames(newtidytract2016[,37:44])),
-                            "Housing" = c(colnames(newtidytract2016[,49:52])),
+                            "Household Income Brackets" = c(colnames(newtidytract2016[,49:52])),
+                            "Housing" = c(colnames(newtidytract2016[,47:48])),
                             "Commute Time" = c(colnames(newtidytract2016[,53:56]))),
                        selected = "% Canopy Coverage"),
            selectInput("variable2", "Variable 2:",
@@ -119,9 +120,10 @@ ui <- navbarPage(
                             "Population & Land" = c(colnames(newtidytract2016[,3:5])),
                             "Race & Ethnicity" = c(colnames(newtidytract2016[,13:19])),
                             "Education" = c(colnames(newtidytract2016[,27:33])),
-                            "Main Income & Employment Statistics" = c(colnames(newtidytract2016[,c(33,45,34,46)])),
+                            "Main Income & Employment Statistics" = c(colnames(newtidytract2016[,c(35,45,34,46)])),
                             "Household Income Sources" = c(colnames(newtidytract2016[,37:44])),
-                            "Housing" = c(colnames(newtidytract2016[,49:52])),
+                            "Household Income Brackets" = c(colnames(newtidytract2016[,49:52])),
+                            "Housing" = c(colnames(newtidytract2016[,47:48])),
                             "Commute Time" = c(colnames(newtidytract2016[,53:56]))),
                        selected = "% Canopy Coverage"),
            fluidRow(column(7, DT::dataTableOutput("mytable")),
@@ -129,12 +131,11 @@ ui <- navbarPage(
            # output: interactive table
              mainPanel(tableOutput("table"))),
   # third panel: our spatial regression with diagnostics
-  tabPanel("Regression Analysis",
-           includeMarkdown('~/urban-forest/documents/Regression File.Rmd')),
+  tabPanel("Regression Analysis"),
   
   # fourth panel: our about page, including downloadable links to some data
   tabPanel("About",
-           includeMarkdown('~/urban-forest/documents/About File.Rmd'))
+           includeMarkdown('~/urban-forest/miscellaneous project information/About File.Rmd'))
   
 )
 
