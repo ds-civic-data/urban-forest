@@ -172,10 +172,11 @@ server <- function(input, output) {
     
   })
   
-  # FRANK WRITE STUFF IDK WHAT THESE DO
+  # output of table, dependent on drop down choices for variables 1 and 2
   output$mytable <- DT::renderDataTable({
     newtidytract2016[, c("Census Tract", input$variable1, input$variable2), drop = FALSE]
   }, rownames = F)
+  # output of scatterplot, x = variable1, y = variable2, s records selected rows and adds points with 'if' line
   output$outplot <- renderPlot({
     s = input$mytable_rows_selected
     plot(newtidytract2016[, c(input$variable1, input$variable2), drop = FALSE])
