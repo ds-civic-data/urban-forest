@@ -55,8 +55,8 @@ Housing <- list("`% Occupied Housing Units: Owner Occupied`",
 `Commute Time` <- list("`% Workers with Less than 20 Minute Commute`",
                     "`% Workers with 20 to 40 Minute Commute`", "`% Workers with Over 40 Minute Commute`",
                     "`% Workers with No Commute`")
-sfo <- list('Population', '`Race & Ethnicity`', '`Education & Unemployment`',
-         '`Income & Equity`', 'Housing', '`Commute Time`')
+sfo <- list(Population, `Race & Ethnicity`, `Education & Unemployment`,
+         `Income & Equity`, Housing, `Commute Time`)
 select_fill_options <- c("`Total Population`", "`Population Density (Per Sq. Mile)`",
                        #  "`Area (Land, in Sq. Miles)`", 
                          "`% Total Population: White Alone`", 
@@ -92,11 +92,11 @@ ui <- navbarPage(
            sidebarLayout(
              sidebarPanel(
                selectInput("fill_opts", "Select Data Fill",
-                           choices = sfo),
+                           choices = select_fill_options),
                checkboxInput("bounds_opts", "Toggle Neighborhood Boundaries",
                              value = FALSE),
-               sliderInput("alpha_opts", "Select Tree Transparency",
-                           min = 0, max = 0.25, value = 0.02),
+             #  sliderInput("alpha_opts", "Select Tree Transparency",
+             #             min = 0, max = 0.25, value = 0.02),
                sliderInput("tree_sample", "Select Trees in Sample", 
                            min=0, max=100000, value=50000)),
              # outputs
@@ -140,7 +140,7 @@ server <- function(input, output) {
                               y=tidytract2016_spatial$lat, 
                               group=tidytract2016_spatial$group, 
                               fill=input$fill_opts), 
-                   alpha = 0.6) +
+                   alpha = 0.7) +
       geom_polygon(data = neighborhoods_all, aes(x=long, y=lat, group=group), 
                    col = input$bounds_opts, 
                    fill = 'transparent') +
@@ -149,7 +149,7 @@ server <- function(input, output) {
                  ), 
                  col = 'dark green',
                  size = 0.3,
-                 alpha = input$alpha_opts)  +
+                 alpha = 0.01)  +
       scale_fill_gradientn(colours = heat.colors(7), na.value = 'transparent') +
       theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
       theme_bw()
