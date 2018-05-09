@@ -24,5 +24,8 @@ centroids_tt <- cbind(centroids_tt, dist)
 tidytract2016_sp_cent <- left_join(centroids_tt, tidytract2016_spatial,
                                    by = c('PID' = 'id'))
 
-write_csv(tidytract2016_sp_cent, 'tidytract2016_sp_cent.csv')
+tidytract2016_sp_cent <- tidytract2016_sp_cent %>%
+  dplyr::select(-PID, -hole, -STATEFP, -ALAND, -AWATER)
+
+write_csv(tidytract2016_sp_cent, '~/urban-forest/data/tidytract2016_sp_cent.csv')
 
