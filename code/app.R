@@ -26,7 +26,8 @@ street_trees_all <- read_csv('~/urban-forest/data/street_trees_all.csv',
 neighborhoods_all <- read_csv('~/urban-forest/data/neighborhoods_all.csv', 
                               col_names = T)
 newtidytract2016 <- read_csv('~/urban-forest/data/newtidytract2016.csv', 
-                             col_names = T)
+                             col_names = T) %>%
+  filter(`Census Tract` != "Census Tract 9800")
 # this is a map of portland
 portland <- get_map(location = c(lon = -122.66, lat = 45.531), zoom = 11, 
                     maptype = "terrain", color = "bw")
@@ -104,10 +105,24 @@ ui <- navbarPage(
   # second panel: data table and base r scatterplot
   tabPanel("Data Table Output",
            selectInput("variable1", "Variable 1:",
-                       colnames(newtidytract2016[, c(3:5, 13:19, 27:57)]),
-                       selected = "% Population: Doctorate Degree"),
+                       list(colnames(newtidytract2016[,57]),
+                            "Population & Land" = c(colnames(newtidytract2016[,3:5])),
+                            "Race & Ethnicity" = c(colnames(newtidytract2016[,13:19])),
+                            "Education" = c(colnames(newtidytract2016[,27:33])),
+                            "Main Income & Employment Statistics" = c(colnames(newtidytract2016[,c(33,45,34,46)])),
+                            "Household Income Sources" = c(colnames(newtidytract2016[,37:44])),
+                            "Housing" = c(colnames(newtidytract2016[,49:52])),
+                            "Commute Time" = c(colnames(newtidytract2016[,53:56]))),
+                       selected = "% Canopy Coverage"),
            selectInput("variable2", "Variable 2:",
-                       colnames(newtidytract2016[, c(3:5, 13:19, 27:57)]),
+                       list(colnames(newtidytract2016[,57]),
+                            "Population & Land" = c(colnames(newtidytract2016[,3:5])),
+                            "Race & Ethnicity" = c(colnames(newtidytract2016[,13:19])),
+                            "Education" = c(colnames(newtidytract2016[,27:33])),
+                            "Main Income & Employment Statistics" = c(colnames(newtidytract2016[,c(33,45,34,46)])),
+                            "Household Income Sources" = c(colnames(newtidytract2016[,37:44])),
+                            "Housing" = c(colnames(newtidytract2016[,49:52])),
+                            "Commute Time" = c(colnames(newtidytract2016[,53:56]))),
                        selected = "% Canopy Coverage"),
            fluidRow(column(7, DT::dataTableOutput("mytable")),
                     column(5, plotOutput("outplot"))),
