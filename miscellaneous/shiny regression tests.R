@@ -24,17 +24,44 @@ m3 <- lm(population_density ~ white + black + med_family_income + no_commute + b
          data = tidytract2016_sp_cent)
 summary(m3)
 
-tractCoverage <- read_csv('~/urban-forest/data/tractCoverage.csv', col_names = T)
+tC <- read_csv('~/urban-forest/data/tractCoverage.csv', col_names = T)
+
+tractCoverage <- tC %>%
+  filter(GEOID != 41051006300) %>%
+  filter(GEOID != 41051008901)
 
 tscc <- left_join(tractCoverage, tidytract2016_sp_cent,
                             by = c("GEOID" = "GEOID"))
 # 7 extra coverage values
 tt_sp_cent_cov <- tscc %>%
-  filter(!is.na(cent_x)) 
+  filter(!is.na(X)) %>%
+  distinct(GEOID, .keep_all = T)
 
-m4 <- lm(cover ~ below_hs, tt_sp_cent_cov)
+m4 <- lm(cover ~ `Population Density (Per Sq. Mile)` + 
+           `% Total Population: White Alone` +
+           `% Population: Master's Degree`+
+           `Median Family Income` +
+           `Gini Index` +
+           `% Workers with No Commute` +
+           percent_water, tt_sp_cent_cov)
 summary(m4)
 
+m5 <- lm(cover ~ `Median Family Income` +
+           `% Workers with No Commute` +
+           dist +
+           percent_water,
+         tt_sp_cent_cov)
+summary(m5)
 
+m6 <- lm(cover ~ `Median Family Income`, tt_sp_cent_cov)
+summary(m6)
+
+m7 <- lm(cover ~ `% Workers with No Commute`,
+         tt_sp_cent_cov)
+summary(m7)
+
+m8 <- lm(cover ~ `Median Family Income` +
+           percent_water, tt_sp_cent_cov)
+summary(m8)
 
 write_csv(tt_sp_cent_cov, '~/urban-forest/data/tidytract2016_sp_cent.csv')
