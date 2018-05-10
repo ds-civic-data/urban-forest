@@ -62,3 +62,5 @@ The data shown in this tab is two numeric demographic variables chosen by the us
 
 ##### Regression Analysis
 
+The regression uses data from the American Community Survey five year estimates for 2011-2016. It was the best model we could find for accounting for spatial autocorrelation while still including a breadth of demographic data. More information is in its slide. 
+
