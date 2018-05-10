@@ -93,6 +93,7 @@ summary(mls2)
 #### Model Overview
 
   One concern of running an analysis on canopy coverage is that there will be spatial autocorrelation. This occurs when units of observations cluster (in our case Census Tracts), and similar dependent variables are seen. It seems logical that if a tract has high canopy coverage, regardless of any demographic statistics, its neighboring tracts are likely to have high canopy coverage as well. 
+  
   Thus, we decided to use a spatial lagged dependent variable model to look at the relationship between different demographic data and canopy coverage. In its general form, the spatial lagged dependent variable is written as $$Y_i=ρWY_N+βX+e$$ where $Y_i$ is tract i's canopy coverage, and ρ is a scalar of $WY_N$.
   $WY_N$ is a matrix of the canopy coverage of tract i's neighbors, weighed by the matrix $W$, depending on distance. Below is an image of the distance of individual tracts from each other. 
 ```{r, echo = FALSE}
@@ -100,6 +101,7 @@ plot(W,coordinates(tract_stuff))
 ```
   
   $βX+e$ is the matrix of the independent variables, X, multiplied by their coefficients, included in the matrix $β$, and e is the error term. 
+  
   By choosing this type of model, we can account for the fact that neighboring tracts are going have similar canopy coverage irregardless of their demographic data. Thus we can isolate the relationship between demographics and canopy coverage in Portland.
 
 #### Model Results
@@ -109,15 +111,21 @@ plot(W,coordinates(tract_stuff))
 mls1$coefficients
 ```
 The variable % Total Population: Black or African American Alone is not statistically significant. When running alternative regressions for the proportion of the population that is white, there was not statistical significance as well. However, it should be noted that the black coefficient was consistently negative in our alternative regressions, and white was consistently positive. 
+
 Median gross rent had a negative and statistically significant effect on canopy coverage. Since we control for income and income inequality with our other variables, this likely reflects the demand for rental properties in a tract. So, as more people demand rental properties, the expected canopy coverage decreases. 
+
 Median family income is statistically significant and has a positive effect on canopy coverage. This is unsurprising, and is by far the most statistically significant.
+
 The Gini Index has a positive effect, which means as income distribution becomes more unequal, the expect canopy coverage increases. However, this could either mean more poor people or more concentrated wealth, which has different implications.
+
 Homeownership also has a positive and stastically significant effect. This means that places where people are homeowners are more likely to have a higher canopy coverage. 
+
   Our choice of model proved useful, given the ρ coefficient's value below.
 ```{r}
 mls1$rho
 ```
 This is a sizeable ρ for scaling the effect of surrounding tracts' canopy coverage on a given tract's expected canopy coverage. This rho, against the null hypothesis that it should have no effect, is statistically significant at the 1% level. 
+
   These spatial dependent variable lags proved useful. Below is the output of a Lagrange Multiplier Test for spatial autocorrelation, with the null hypothesis being that there is not autocorrelation.
 ```{r}
 mls1$LMtest
