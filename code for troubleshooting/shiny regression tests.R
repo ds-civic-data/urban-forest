@@ -24,18 +24,7 @@ m3 <- lm(population_density ~ white + black + med_family_income + no_commute + b
          data = tidytract2016_sp_cent)
 summary(m3)
 
-tC <- read_csv('~/urban-forest/data/tractCoverage.csv', col_names = T)
-
-tractCoverage <- tC %>%
-  filter(GEOID != 41051006300) %>%
-  filter(GEOID != 41051008901)
-
-tscc <- left_join(tractCoverage, tidytract2016_sp_cent,
-                            by = c("GEOID" = "GEOID"))
-# 7 extra coverage values
-tt_sp_cent_cov <- tscc %>%
-  filter(!is.na(X)) %>%
-  distinct(GEOID, .keep_all = T)
+tscc <- read_csv('~/urban-forest/data/tscc', col_names = T)
 
 m4 <- lm(cover ~ `Population Density (Per Sq. Mile)` + 
            `% Total Population: White Alone` +
