@@ -241,7 +241,7 @@ server <- function(input, output) {
   # circles when a new color is chosen) should be performed in
   # an observer. Each independent set of things that can change
   # should be managed in its own observer.
-  observe({
+  observeEvent(input$leaflet_opts, {
     
     x <- input$leaflet_opts
     
@@ -251,9 +251,6 @@ server <- function(input, output) {
                   color = ~leaf_fill_data())
       
   })
-  
-  # Use a separate observer to recreate the legend as needed.
-  
   
   
   # output of table, dependent on drop down choices for variables 1 and 2
