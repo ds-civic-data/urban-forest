@@ -15,6 +15,8 @@ file.exists('~/urban-forest/data-raw/cb_2017_41_tract_500k.shp')
 census_spatial <- readOGR(dsn=path.expand("~/urban-forest/data-raw/"), 
                           layer="cb_2017_41_tract_500k") 
 
+newtidytract2016 <- read_csv("data/newtidytract2016.csv")
+
 z <- newtidytract2016 %>%
   filter(`Census Tract` != "Census Tract 9800") %>%
   mutate(`% Canopy Cover` = 1 - `% Canopy Coverage`) %>%
