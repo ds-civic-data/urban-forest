@@ -136,7 +136,7 @@ ui <- navbarPage(
              mainPanel(tableOutput("table"))),
   # third panel: our spatial regression with diagnostics
   tabPanel("Regression Analysis",
-           includeMarkdown('~/urban-forest/miscellaneous project information/Regression File.Rmd')),
+           includeMarkdown('~/urban-forest/miscellaneous project information/Regression File.html')),
   
   # fourth panel: our about page, including downloadable links to some data
   tabPanel("About",
