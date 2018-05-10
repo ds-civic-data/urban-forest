@@ -133,18 +133,36 @@ $(document).ready(function () {
 </div>
 <div id="themes" class="section level4">
 <h4>Themes</h4>
-<p>Trees! We’re looking at the effect of census data demographics (median family income, percent of workers with no commute, etc) on tree canopy, at the census track level. Each observation is one census tract in the Portland metro area.</p>
+<p>Trees! We’re looking at the relationship of census data demographics (median family income, percent of workers with no commute, etc) on tree canopy, at the census track level. Each observation is one census tract in the Portland metro area.</p>
 </div>
 <div id="relevant-work" class="section level4">
 <h4>Relevant Work</h4>
 <p>Relevant work includes the following literature:</p>
-<p>“Valuing green infrastructure in Portland, Oregon” <a href="https://www.sciencedirect.com/science/article/pii/S0169204614000036" class="uri">https://www.sciencedirect.com/science/article/pii/S0169204614000036</a></p>
-<p>“Trees in the city: valuing street trees in Portland, Oregon” <a href="https://www.fs.usda.gov/treesearch/pubs/36186" class="uri">https://www.fs.usda.gov/treesearch/pubs/36186</a></p>
-<p>“The Effect of Trees on Crime in Portland, Oregon” <a href="http://journals.sagepub.com/doi/abs/10.1177/0013916510383238" class="uri">http://journals.sagepub.com/doi/abs/10.1177/0013916510383238</a></p>
+<ul>
+<li><p>“Valuing green infrastructure in Portland, Oregon” <a href="https://www.sciencedirect.com/science/article/pii/S0169204614000036" class="uri">https://www.sciencedirect.com/science/article/pii/S0169204614000036</a></p></li>
+<li><p>“Trees in the city: valuing street trees in Portland, Oregon” <a href="https://www.fs.usda.gov/treesearch/pubs/36186" class="uri">https://www.fs.usda.gov/treesearch/pubs/36186</a></p></li>
+<li><p>“The Effect of Trees on Crime in Portland, Oregon” <a href="http://journals.sagepub.com/doi/abs/10.1177/0013916510383238" class="uri">http://journals.sagepub.com/doi/abs/10.1177/0013916510383238</a></p></li>
+</ul>
 </div>
 <div id="data" class="section level4">
 <h4>Data</h4>
 <p>Our census data comes from the American Community Survey’s 5 year estimates, 2011 - 2016. This data was accessed at www.socialexplorer.com Our canopy coverage comes from RLIS, which is not publically available. We used an aggregated percentage form for our regression, not the full raster data set. Our street trees data comes from Portland Maps, accessable here: <a href="https://pdx.maps.arcgis.com/home/webmap/viewer.html?webmap=b8c4b91c1afd4057b78eedfbdf2ae231" class="uri">https://pdx.maps.arcgis.com/home/webmap/viewer.html?webmap=b8c4b91c1afd4057b78eedfbdf2ae231</a></p>
+</div>
+<div id="about-this-app" class="section level4">
+<h4>About This App</h4>
+<div id="map-visualization" class="section level5">
+<h5>Map Visualization</h5>
+<p>This visualization is a map of portland from Google Maps, overlaid with a heatmap of the census data from the American Community Survey, overlaid with the street trees data from Portland Maps.</p>
+<p>The street trees data is of all the trees on public property - it does not include any trees on private propert. It is mapped with transparency 0.01, so it is just barely visible: this way, the census data by census tract is more visible.</p>
+<p>The Tree Sample slider creates random yet reproduceable (seeded) data samples of your choosing.</p>
+</div>
+<div id="data-table-output" class="section level5">
+<h5>Data Table Output</h5>
+<p>The data shown in this tab is two numeric demographic variables chosen by the user, and each row in an individual census tract. Those variables are shown in a scatterplot next to the table. To find any individual tract’s point, simply click on the row, and the point will enlargen in the scatterplot.</p>
+</div>
+<div id="regression-analysis" class="section level5">
+<h5>Regression Analysis</h5>
+</div>
 </div>
 </div>
 

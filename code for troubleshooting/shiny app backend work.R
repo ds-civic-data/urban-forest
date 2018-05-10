@@ -19,6 +19,8 @@ portland <- get_map(location = c(lon = -122.66, lat = 45.531), zoom = 11,
                     maptype = "terrain")
 lep_tidytract2016 <- read_csv('~/urban-forest/data/lep_tidytract2016.csv', 
                               col_names = T)
+newtidytract2016 <- read_csv('~/urban-forest/data/newtidytract2016.csv', 
+                             col_names = T)
 n_portland <- get_map(location = c(lon = -122.69, lat = 45.56), zoom = 12, 
                       maptype = "terrain") 
 
@@ -83,6 +85,9 @@ leaflet(options = leafletOptions(minZoom = 10, maxZoom = 14)) %>%
              fillOpacity=0.01) %>%
   print()
 
+plot(newtidytract2016[, c(`Gini Index`, `% Canopy Coverage`), drop = FALSE])
+plot(sin, -pi, 2*pi)
+plot(`Gini Index`, `% Canopy Coverage`)
 
 #NE
 #10 KING 

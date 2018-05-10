@@ -92,7 +92,7 @@ ui <- navbarPage(
   #title
   "Portland: Trees & Demographics", fluid = T, collapsible = T,
   # first panel: maps
-  tabPanel("Map Visualizations",
+  tabPanel("Map Visualization",
            
            sidebarLayout(
              sidebarPanel(
@@ -137,7 +137,8 @@ ui <- navbarPage(
   
   # fourth panel: our about page, including downloadable links to some data
   tabPanel("About",
-           includeMarkdown('~/urban-forest/miscellaneous project information/About File.Rmd'))
+           shiny::includeMarkdown('~/urban-forest/miscellaneous project information/About File.Rmd')
+           , width = 100)
   
 )
 
@@ -181,7 +182,14 @@ server <- function(input, output) {
   # output of scatterplot, x = variable1, y = variable2, s records selected rows and adds points with 'if' line
   output$outplot <- renderPlot({
     s = input$mytable_rows_selected
-    plot(newtidytract2016[, c(input$variable1, input$variable2), drop = FALSE])
+    x <- newtidytract2016[, input$variable1]
+    y <- newtidytract2016[, input$variable2]
+  #  df <- tibble(input$variable1, input$variable2)
+#    cap <- cor(as.vector(x), as.vector(y))
+    plot(newtidytract2016[, c(input$variable1, input$variable2), drop = FALSE]
+  #       ,sub = paste0("The correlation coefficient between your selections is ", cap)
+         ) 
+ #   abline(newtidytract2016[, c(lm(input$variable1~input$variable2))])
     if (length(s)) points(newtidytract2016[s, c(input$variable1, input$variable2), drop = FALSE], pch = 19, cex = 2)
   })
       
