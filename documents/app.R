@@ -37,8 +37,14 @@ portland <- get_map(location = c(lon = -122.66, lat = 45.531), zoom = 11,
                     maptype = "terrain", color = "bw")
 
 # for leaflet map
-census_spatial <- read_csv('~/urban-forest/data/census_spatial_all.csv', col_names = T)
-tract_stuff <- merge(census_spatial, newtidytract2016, by.x = "GEOID", by.y = "fips")
+census_spatial <- readOGR(dsn=path.expand("~/urban-forest/data-raw/"), 
+                          layer="cb_2017_41_tract_500k") 
+z <- newtidytract2016 %>%
+   filter(`Census Tract` != "Census Tract 9800") %>%
+   mutate(`% Canopy Cover` = 1 - `% Canopy Coverage`) %>%
+   na.omit()
+#tract_stuff <- merge(census_spatial, z, by.x = "GEOID", by.y = "fips")
+tract_stuff <- merge(census_spatial, newtidytract2016, by.x = "GEOID", by.y = "fips") 
 
 ##specify what categories we want to color with
 Population <- list("`Total Population`", "`Population Density (Per Sq. Mile)`")
@@ -210,24 +216,11 @@ server <- function(input, output) {
     
   })
   
-function(input, output) {
-    qpal<-colorQuantile("OrRd", tract_stuff@data$input$leaflet_opts, n=9)  
-    m <- leaflet(tract_stuff, options = leafletOptions(minZoom = 10, maxZoom = 13))
-    map_bs = m %>%
-      addTiles() %>%
-      setView(lng=-122.65, lat=45.52, zoom = 10) %>%
-      addPolygons(stroke = FALSE, fillOpacity = .8, smoothFactor = 0.2, 
-                  color = ~qpal(input$leaflet_opts))
-    output$leaflet_map <- renderLeaflet(map_bs)
-}
-    
-#  output$leaflet_map <- renderLeaflet(map_bs)
-  
   # This reactive expression represents the palette function,
   # which changes as the user makes selections in UI.
-  leaf_data <- reactive ({
-    subset(tract_stuff, input$leaflet_opts)
-  })
+ # leaf_data <- reactive ({
+ #   tract_stuff[tract_stuff@data == input$leaflet_opts]
+ # })
   
   leaf_fill_data <- reactive({
     x <- input$leaflet_opts
@@ -250,8 +243,10 @@ function(input, output) {
   # should be managed in its own observer.
   observe({
     
+    x <- input$leaflet_opts
+    
     leafletProxy("leaflet_map", data = tract_stuff) %>%
-      removeShape("leaflet_map") %>%
+      clearShapes() %>%
       addPolygons(stroke = FALSE, fillOpacity = .8, smoothFactor = 0.2, 
                   color = ~leaf_fill_data())
       
