@@ -15,17 +15,22 @@ file.exists('~/urban-forest/data-raw/cb_2017_41_tract_500k.shp')
 census_spatial <- readOGR(dsn=path.expand("~/urban-forest/data-raw/"), 
                           layer="cb_2017_41_tract_500k") 
 
-tract_stuff <- merge(census_spatial, newtidytract2016, by.x = "GEOID", by.y = "fips") 
+z <- newtidytract2016 %>%
+  filter(`Census Tract` != "Census Tract 9800") %>%
+  mutate(`% Canopy Cover` = 1 - `% Canopy Coverage`) %>%
+  na.omit()
+
+tract_stuff <- merge(census_spatial, z, by.x = "GEOID", by.y = "fips") 
 tract_stuff <- subset(tract_stuff, `% Canopy Coverage` > 0)
 
 
 require(RColorBrewer)
 library(leaflet)
 
-qpal<-colorQuantile("OrRd", tract_stuff@data$`% Canopy Coverage`, n=9) 
+qpal<-colorQuantile("OrRd", tract_stuff@data$`% Canopy Cover`, n=9) 
 
 leaflet(tract_stuff) %>%
-  addPolygons(stroke = FALSE, fillOpacity = .8, smoothFactor = 0.2, color = ~qpal(`% Canopy Coverage`)
+  addPolygons(stroke = FALSE, fillOpacity = .8, smoothFactor = 0.2, color = ~qpal(`% Canopy Cover`)
   ) %>%
   addTiles()
 
@@ -37,9 +42,9 @@ plot(W,coordinates(tract_stuff))
 coords<-coordinates(tract_stuff)
 W_dist<-dnearneigh(coords,0,1,longlat = FALSE)
 
-f1 <- `% Canopy Coverage` ~ `% Occupied Housing Units: Owner Occupied` + 
-  `Gini Index` + `Median Gross Rent` + `Total Population: White Alone` + 
-  `Area (Land, in Sq. Miles)` + `Total Population`
+f1 <- `% Canopy Cover` ~ `% Occupied Housing Units: Owner Occupied` +
+  `Median Family Income` + `% Households: Less than $40,000` +
+  `% Total Population: Black or African American Alone`
 
 nb <- poly2nb(tract_stuff)
 lw <- nb2listw(nb)
