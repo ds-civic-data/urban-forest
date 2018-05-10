@@ -63,15 +63,56 @@ f1 <- `% Canopy Cover` ~ `% Occupied Housing Units: Owner Occupied` +
   `Median Family Income` + `% Households: Less than $40,000` +
   `% Total Population: Black or African American Alone`
 
+f2 <- `% Canopy Cover` ~ `Median Family Income` +
+  `% Total Population: White Alone` +
+          `% Population: Less than High School` +
+          `% Households: $125,000 and Over` 
+          
+
 nb <- poly2nb(tract_stuff)
 lw <- nb2listw(nb)
 
-m1s = lagsarlm(f1, data=tract_stuff, lw, tol.solve=1.0e-30)
+mls1 = lagsarlm(f1, data=tract_stuff, lw, tol.solve=1.0e-30)
+mlsone <- summary(mls1)
+summary(mls1)
+mls2 <- lagsarlm(f2, data = tract_stuff, lw, tol.solve=1.0e-30)
+mlstwo <- summary(mls2)
 ```
 
-### Regression: Spatial Lagged Dependent Variable
+### Regressions: Spatial Lagged Dependent Variable Models
+
+#### Model Overview
+
+  One concern of running an analysis on canopy coverage is that there will be spatial autocorrelation. This occurs when units of observations cluster (in our case Census Tracts), and similar dependent variables are seen. It seems logical that if a tract has high canopy coverage, regardless of any demographic statistics, its neighboring tracts are likely to have high canopy coverage as well. 
+  Thus, we decided to use a spatial lagged dependent variable model to look at the relationship between different demographic data and canopy coverage. In its general form, the spatial lagged dependent variable is written as $$Y_i=ρWY_N+βX+e$$ where $Y_i$ is tract i's canopy coverage, and ρ is a scalar of $WY_N$.
+  $WY_N$ is a matrix of the canopy coverage of tract i's neighbors, weighed by the matrix $W$, depending on distance. Below is an image of the distance of individual tracts from each other. 
+```{r, echo = FALSE}
+plot(W,coordinates(tract_stuff))
+```
+  
+  $βX+e$ is the matrix of the independent variables, X, multiplied by their coefficients, included in the matrix $β$, and e is the error term. 
+  By choosing this type of model, we can account for the fact that neighboring tracts are going have similar canopy coverage irregardless of their demographic data. Thus we can isolate the relationship between demographics and canopy coverage in Portland.
+
+#### Model Results
+
+  Our model included the independent variables for the percentage of owner occupied housing units, median family income, the percentage of households making less than $40,000, and the percentage of the total population which is African American. The coefficients of those variables, and the intercept, are included below.
+```{r}
+mls1$coefficients
+```
+All are significant at the 5% level, except for % Total Population: Black or African American Alone, which has a p-value of 0.419. Furthermore, all the other variables, barring % Occupied Housing Units: Owner Occupied, are significant at the 1% level. These positive sign of the coefficients for home ownership and median family income are not surprising. However, it was surprising that as the proportions of households making less than $40,000 increases in a tract, so does the expected amount of canopy coverage. 
+  Our choice of model proved useful, given the ρ coefficient's value below.
+```{r}
+mls1$rho
+```
+This is a sizeable ρ for scaling the effect of surrounding tracts' canopy coverage on a given tract's expected canopy coverage. This rho, against the null hypothesis that it should have no effect, is statistically significant at the 1% level. 
+  These spatial dependent variable lags proved useful. Below is the output of a Lagrange Multiplier Test that there is no spatial autocorrelation, with the null hypothesis being that there is autocorrelation.
+```{r}
+mls1$LMtest
+```
+This value translates to a p-value of 0.062. Although not significant at the 5% level, it nearly is. Still, even our spatial lagged dependent variables do not completely resolve the issue of spatial autocorrelation. 
+
+#### Complete Model Output
 
 ```{r}
-summary(m1s)
+summary(mls1)
 ```
-
