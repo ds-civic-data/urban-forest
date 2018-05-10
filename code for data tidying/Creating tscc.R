@@ -39,7 +39,7 @@ tscc <- left_join(tC, tidytract2016_sp_cent,
 # 7 extra coverage values
 tscc <- tscc %>%
   filter(!is.na(X)) %>%
-  distinct(GEOID, .keep_all = T) %>%
+  distinct(FIPS, .keep_all = T) %>%
   dplyr::select(-OBJECTID, -ZONE_CODE, -COUNT, -AREA, -MIN, -MAX, -RANGE, -MEAN, -STD, -SUM,
          -VARIETY, -MAJORITY, -MINORITY, -MEDIAN)
 

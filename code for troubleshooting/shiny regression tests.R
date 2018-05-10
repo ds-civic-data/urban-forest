@@ -26,33 +26,51 @@ summary(m3)
 
 tscc <- read_csv('~/urban-forest/data/tscc.csv', col_names = T)
 
+# tscc <- tscc %>%
+  
+
 m4 <- lm(sumOverCount ~ `Population Density (Per Sq. Mile)` + 
            `% Total Population: White Alone` +
            `% Population: Master's Degree`+
            `Median Family Income` +
            `Gini Index` +
            `% Workers with No Commute` +
-           percent_water,
+           percent_water +
+           dist,
          tscc)
 summary(m4)
 
-m5 <- lm(cover ~ `Median Family Income` +
+m5 <- lm(sumOverCount ~ `Median Family Income` +
            `% Workers with No Commute` +
            dist +
            percent_water,
          tscc)
 summary(m5)
 
-m6 <- lm(cover ~ `Median Family Income`, tscc)
+m6 <- lm(sumOverCount ~ `Median Family Income`, tscc)
 summary(m6)
 
-m7 <- lm(cover ~ `% Workers with No Commute`,
+m7 <- lm(sumOverCount ~ `% Workers with No Commute`,
          tscc)
 summary(m7)
 
-m8 <- lm(cover ~ `Median Family Income` +
-           percent_water, tscc)
+m8 <- lm(sumOverCount ~ `Median Family Income` +
+           percent_water +
+           dist, tscc)
 summary(m8)
 
 # depreciated
 # write_csv(tt_sp_cent_cov, '~/urban-forest/data/tidytract2016_sp_cent.csv')
+
+m9 <- lm(sumOverCount ~ `Median Family Income` +
+          `% Civilian Population in Labor Force 16 Years and Over: Unemployed` +
+          `% Total Population: Black or African American Alone` +
+          `Population Density (Per Sq. Mile)` +
+           `Gini Index` +
+           `% Workers with No Commute` +
+          `% Population: Bachelor's Degree` +
+          `% Occupied Housing Units: Owner Occupied` +
+           percent_water +
+           dist,
+         tscc)
+summary(m9)
