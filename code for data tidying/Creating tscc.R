@@ -40,7 +40,7 @@ tscc <- left_join(tC, tidytract2016_sp_cent,
 tscc <- tscc %>%
   filter(!is.na(X)) %>%
   distinct(GEOID, .keep_all = T) %>%
-  select(-OBJECTID, -ZONE_CODE, -COUNT, -AREA, -MIN, -MAX, -RANGE, -MEAN, -STD, -SUM,
+  dplyr::select(-OBJECTID, -ZONE_CODE, -COUNT, -AREA, -MIN, -MAX, -RANGE, -MEAN, -STD, -SUM,
          -VARIETY, -MAJORITY, -MINORITY, -MEDIAN)
 
 write_csv(tscc, '~/urban-forest/data/tscc.csv')

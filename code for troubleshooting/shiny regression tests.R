@@ -24,33 +24,35 @@ m3 <- lm(population_density ~ white + black + med_family_income + no_commute + b
          data = tidytract2016_sp_cent)
 summary(m3)
 
-tscc <- read_csv('~/urban-forest/data/tscc', col_names = T)
+tscc <- read_csv('~/urban-forest/data/tscc.csv', col_names = T)
 
-m4 <- lm(cover ~ `Population Density (Per Sq. Mile)` + 
+m4 <- lm(sumOverCount ~ `Population Density (Per Sq. Mile)` + 
            `% Total Population: White Alone` +
            `% Population: Master's Degree`+
            `Median Family Income` +
            `Gini Index` +
            `% Workers with No Commute` +
-           percent_water, tt_sp_cent_cov)
+           percent_water,
+         tscc)
 summary(m4)
 
 m5 <- lm(cover ~ `Median Family Income` +
            `% Workers with No Commute` +
            dist +
            percent_water,
-         tt_sp_cent_cov)
+         tscc)
 summary(m5)
 
-m6 <- lm(cover ~ `Median Family Income`, tt_sp_cent_cov)
+m6 <- lm(cover ~ `Median Family Income`, tscc)
 summary(m6)
 
 m7 <- lm(cover ~ `% Workers with No Commute`,
-         tt_sp_cent_cov)
+         tscc)
 summary(m7)
 
 m8 <- lm(cover ~ `Median Family Income` +
-           percent_water, tt_sp_cent_cov)
+           percent_water, tscc)
 summary(m8)
 
-write_csv(tt_sp_cent_cov, '~/urban-forest/data/tidytract2016_sp_cent.csv')
+# depreciated
+# write_csv(tt_sp_cent_cov, '~/urban-forest/data/tidytract2016_sp_cent.csv')
