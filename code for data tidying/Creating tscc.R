@@ -43,4 +43,10 @@ tscc <- tscc %>%
   dplyr::select(-OBJECTID, -ZONE_CODE, -COUNT, -AREA, -MIN, -MAX, -RANGE, -MEAN, -STD, -SUM,
          -VARIETY, -MAJORITY, -MINORITY, -MEDIAN)
 
+
+# 1-coverage for the real value
+tscc <- tscc %>%
+  mutate(sumOverCount = 1 - sumOverCount)
+
+
 write_csv(tscc, '~/urban-forest/data/tscc.csv')
