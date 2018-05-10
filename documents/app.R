@@ -27,7 +27,9 @@ neighborhoods_all <- read_csv('~/urban-forest/data/neighborhoods_all.csv',
                               col_names = T)
 newtidytract2016 <- read_csv('~/urban-forest/data/newtidytract2016.csv', 
                              col_names = T) %>%
-  na.omit()
+  na.omit() %>%
+  mutate(`% Canopy Coverage` = 1 - `% Canopy Coverage`) 
+
 # this is a map of portland
 portland <- get_map(location = c(lon = -122.66, lat = 45.531), zoom = 11, 
                     maptype = "terrain", color = "bw")
@@ -103,7 +105,7 @@ ui <- navbarPage(
              # outputs
              mainPanel(plotOutput("geom_map")))),
   # second panel: data table and base r scatterplot
-  tabPanel("Data Table Output, SE Portland",
+  tabPanel("Data Table Output",
            selectInput("variable1", "Variable 1:",
                        list(colnames(newtidytract2016[,57]),
                             "Population & Land" = c(colnames(newtidytract2016[,3:5])),

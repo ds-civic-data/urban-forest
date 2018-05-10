@@ -140,6 +140,12 @@ library(ggmap)
 library(maptools)
 library(raster)
 library(spData)
+library(spdep)
+library(graphics)
+library(grDevices)
+library(readr)
+library(rgdal)
+
 
 list.files('~/urban-forest/data-raw/', pattern='\\.shp$')
 file.exists('~/urban-forest/data-raw/cb_2017_41_tract_500k.shp')
