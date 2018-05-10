@@ -33,6 +33,9 @@ neighborhoods_all <- read_csv('~/urban-forest/data/neighborhoods_all.csv',
 portland <- get_map(location = c(lon = -122.66, lat = 45.531), zoom = 11, 
                     maptype = "terrain", color = "bw")
 
+newtidytract2016 <- read_csv("~/urban-forest/data/newtidytract2016.csv") %>%
+  mutate(`% Canopy Coverage` = 1 - `% Canopy Coverage`)
+
 ##specify what categories we want to color with
 Population <- list("`Total Population`", "`Population Density (Per Sq. Mile)`")
 `Race & Ethnicity` <- list("`% Total Population: White Alone`", 
