@@ -1,7 +1,4 @@
 ---
-title: "Regression File"
-author: "Mitzi Zitler, Frank Gaunt, Clark Chang"
-date: "5/9/2018"
 output: html_document
 ---
 
@@ -35,11 +32,15 @@ newtidytract2016 <- read_csv("~/urban-forest/data/newtidytract2016.csv")
 z <- newtidytract2016 %>%
   filter(`Census Tract` != "Census Tract 9800") %>%
   mutate(`% Canopy Cover` = 1 - `% Canopy Coverage`) %>%
-  na.omit()
+  na.omit() 
+  
+w_noise <- z %>%
+  mutate(noise= rnorm(146))
 
 tract_stuff <- merge(census_spatial, z, by.x = "GEOID", by.y = "fips") 
 tract_stuff <- subset(tract_stuff, `% Canopy Coverage` > 0)
-
+tract_stuff2 <- merge(census_spatial, w_noise, by.x = "GEOID", by.y = "fips") 
+tract_stuff2 <- subset(tract_stuff2, `% Canopy Coverage` > 0)
 
 require(RColorBrewer)
 library(leaflet)
@@ -59,14 +60,19 @@ plot(W,coordinates(tract_stuff))
 coords<-coordinates(tract_stuff)
 W_dist<-dnearneigh(coords,0,1,longlat = FALSE)
 
-f1 <- `% Canopy Cover` ~ `% Occupied Housing Units: Owner Occupied` +
-  `Median Family Income` + `% Households: Less than $40,000` +
-  `% Total Population: Black or African American Alone`
+f1 <- `% Canopy Cover` ~ `Median Family Income` + `% Total Population: Black or African American Alone`  +
+  `Median Gross Rent` +     `Gini Index` +
+
+            `% Occupied Housing Units: Owner Occupied`
+
 
 f2 <- `% Canopy Cover` ~ `Median Family Income` +
   `% Total Population: White Alone` +
           `% Population: Less than High School` +
           `% Households: $125,000 and Over` 
+
+
+f3 <- `% Canopy Cover` ~ noise
           
 
 nb <- poly2nb(tract_stuff)
@@ -77,6 +83,9 @@ mlsone <- summary(mls1)
 summary(mls1)
 mls2 <- lagsarlm(f2, data = tract_stuff, lw, tol.solve=1.0e-30)
 mlstwo <- summary(mls2)
+
+mls2 <- lagsarlm(f3, data = tract_stuff2, lw, tol.solve=1.0e-30)
+summary(mls2)
 ```
 
 ### Regressions: Spatial Lagged Dependent Variable Models
@@ -95,21 +104,25 @@ plot(W,coordinates(tract_stuff))
 
 #### Model Results
 
-  Our model included the independent variables for the percentage of owner occupied housing units, median family income, the percentage of households making less than $40,000, and the percentage of the total population which is African American. The coefficients of those variables, and the intercept, are included below.
+  Our model included the independent variables for the median family income, percentage of the total population which is African American, median gross rent, gini index, and homeownership of a tract. The coefficients of those variables, and the intercept, are included below.
 ```{r}
 mls1$coefficients
 ```
-All are significant at the 5% level, except for % Total Population: Black or African American Alone, which has a p-value of 0.419. Furthermore, all the other variables, barring % Occupied Housing Units: Owner Occupied, are significant at the 1% level. These positive sign of the coefficients for home ownership and median family income are not surprising. However, it was surprising that as the proportions of households making less than $40,000 increases in a tract, so does the expected amount of canopy coverage. 
+The variable % Total Population: Black or African American Alone is not statistically significant. When running alternative regressions for the proportion of the population that is white, there was not statistical significance as well. However, it should be noted that the black coefficient was consistently negative in our alternative regressions, and white was consistently positive. 
+Median gross rent had a negative and statistically significant effect on canopy coverage. Since we control for income and income inequality with our other variables, this likely reflects the demand for rental properties in a tract. So, as more people demand rental properties, the expected canopy coverage decreases. 
+Median family income is statistically significant and has a positive effect on canopy coverage. This is unsurprising, and is by far the most statistically significant.
+The Gini Index has a positive effect, which means as income distribution becomes more unequal, the expect canopy coverage increases. However, this could either mean more poor people or more concentrated wealth, which has different implications.
+Homeownership also has a positive and stastically significant effect. This means that places where people are homeowners are more likely to have a higher canopy coverage. 
   Our choice of model proved useful, given the ρ coefficient's value below.
 ```{r}
 mls1$rho
 ```
 This is a sizeable ρ for scaling the effect of surrounding tracts' canopy coverage on a given tract's expected canopy coverage. This rho, against the null hypothesis that it should have no effect, is statistically significant at the 1% level. 
-  These spatial dependent variable lags proved useful. Below is the output of a Lagrange Multiplier Test that there is no spatial autocorrelation, with the null hypothesis being that there is autocorrelation.
+  These spatial dependent variable lags proved useful. Below is the output of a Lagrange Multiplier Test for spatial autocorrelation, with the null hypothesis being that there is not autocorrelation.
 ```{r}
 mls1$LMtest
 ```
-This value translates to a p-value of 0.062. Although not significant at the 5% level, it nearly is. Still, even our spatial lagged dependent variables do not completely resolve the issue of spatial autocorrelation. 
+This value translates to a p-value of 0.33118. Thus, our spatial lagged dependent variables appears to resolve the issue of spatial autocorrelation, and our coefficients can be interpretted as robust, as we have effectively controlled for the fact that tracts close to each other will have similar canopy coverage, irregardless of demographics.
 
 #### Complete Model Output
 
