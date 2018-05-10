@@ -10,3 +10,27 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ### We Speak For the Trees !
+
+#### Authors
+Mitzi Zitler, Frank Gaunt, Clark Chang
+
+#### Themes
+Trees! We're looking at the effect of census data demographics (median family income, percent of workers with no commute, etc) on tree canopy, at the census track level. Each observation is one census tract in the Portland metro area.
+
+#### Relevant Work
+
+Relevant work includes the following literature:
+
+"Valuing green infrastructure in Portland, Oregon"
+https://www.sciencedirect.com/science/article/pii/S0169204614000036
+
+"Trees in the city: valuing street trees in Portland, Oregon"
+https://www.fs.usda.gov/treesearch/pubs/36186
+
+"The Effect of Trees on Crime in Portland, Oregon"
+http://journals.sagepub.com/doi/abs/10.1177/0013916510383238
+
+
+#### Data
+Our census data comes from the American Community Survey's 5 year estimates, 2011 - 2016. This data was accessed at www.socialexplorer.com Our canopy coverage comes from RLIS, which is not publically available. We used an aggregated percentage form for our regression, not the full raster data set. Our street trees data comes from Portland Maps, accessable here: https://pdx.maps.arcgis.com/home/webmap/viewer.html?webmap=b8c4b91c1afd4057b78eedfbdf2ae231
+

@@ -12,6 +12,7 @@ library(maptools)
 library(raster)
 require(RColorBrewer)
 library(leaflet)
+library(shinythemes)
 
 set.seed(666)
 ##load the data
@@ -27,24 +28,10 @@ street_trees_all <- read_csv('~/urban-forest/data/street_trees_all.csv',
 # this is spatial lines for the neighborhood boundaries
 neighborhoods_all <- read_csv('~/urban-forest/data/neighborhoods_all.csv', 
                               col_names = T)
-newtidytract2016 <- read_csv('~/urban-forest/data/newtidytract2016.csv', 
-                             col_names = T) %>%
-  na.omit() %>%
-  mutate(`% Canopy Coverage` = 1 - `% Canopy Coverage`) 
 
 # this is a map of portland
 portland <- get_map(location = c(lon = -122.66, lat = 45.531), zoom = 11, 
                     maptype = "terrain", color = "bw")
-
-# for leaflet map
-census_spatial <- readOGR(dsn=path.expand("~/urban-forest/data-raw/"), 
-                          layer="cb_2017_41_tract_500k") 
-z <- newtidytract2016 %>%
-   filter(`Census Tract` != "Census Tract 9800") %>%
-   mutate(`% Canopy Cover` = 1 - `% Canopy Coverage`) %>%
-   na.omit()
-#tract_stuff <- merge(census_spatial, z, by.x = "GEOID", by.y = "fips")
-tract_stuff <- merge(census_spatial, newtidytract2016, by.x = "GEOID", by.y = "fips") 
 
 ##specify what categories we want to color with
 Population <- list("`Total Population`", "`Population Density (Per Sq. Mile)`")
@@ -98,52 +85,24 @@ select_fill_options <- c("`Total Population`", "`Population Density (Per Sq. Mil
 # for boundary toggle
 bounds_options <- c("black", "white", "transparent")
 
-# for leaflet map
-leaflet_opts <- c("`Total Population`", "`Population Density (Per Sq. Mile)`",
-                  #  "`Area (Land, in Sq. Miles)`", 
-                  "`% Total Population: White Alone`", 
-                  "`% Total Population: Black or African American Alone`", 
-                  "`% Total Population: American Indian and Alaska Native Alone`", 
-                  "`% Total Population: Asian Alone`", "`% Total Population: Native Hawaiian and Other Pacific Islander Alone`", 
-                  "`% Total Population: Some Other Race Alone`", "`% Total Population: Two or More Races`", 
-                  "`% Population: Less than High School`", "`% Population: High School Graduate`", 
-                  "`% Population: Some College`", "`% Population: Bachelor's Degree`", 
-                  "`% Population: Master's Degree`", "`% Population: Professional School`", 
-                  "`% Population: Doctorate Degree`", "`% Civilian Population in Labor Force 16 Years and Over: Unemployed`",
-                  "`Median Family Income`", "`Per Capita Income (In 2016 Inflation Adjusted Dollars)`", 
-                  "`% Households: Less than $40,000`", "`% Households: $40,000 to $75,000`",
-                  "`% Households: $75,000 to $125,000`", "`% Households: $125,000 and Over`", 
-                  "`Gini Index`", "`% Households: No Earnings`", "`% Households: with Wage or Salary Income`", 
-                  "`% Households: with Self-Employment Income`", "`% Households: with Interest, Dividends, or Net Rental Income`", 
-                  "`% Households: with Social Security Income`", "`% Households: with Supplemental Security Income (Ssi)`", 
-                  "`% Households: with Public Assistance Income`", "`% Households: with Retirement Income`", 
-                  "`% Households: with Other Types of Income`", "`% Occupied Housing Units: Owner Occupied`", 
-                  "`Median Gross Rent`", "`% Workers with Less than 20 Minute Commute`",
-                  "`% Workers with 20 to 40 Minute Commute`", "`% Workers with Over 40 Minute Commute`",
-                  "`% Workers with No Commute`", "`% Canopy Coverage`")
 
 # Define UI for application that plots 
 ui <- navbarPage(
+  theme = shinytheme('simplex'),
   #title
   "Portland: Trees & Demographics", fluid = T, collapsible = T,
   # first panel: maps
-  navbarMenu("Map Visualizations",
-             tabPanel("Street Trees and Census Data",
-                      sidebarLayout(
-                        sidebarPanel(
-                                      selectInput("fill_opts", "Select Data Fill",
-                                                  choices = select_fill_options),
-                                      checkboxInput("bounds_opts", "Toggle Neighborhood Boundaries",
-                                                    value = FALSE),
-                                      sliderInput("tree_sample", "Select Trees in Sample", 
-                                                  min=0, max=100000, value=50000)),
-                                    mainPanel(plotOutput("geom_map")))),
-             tabPanel("Census Data Map Exploration",
-                      sidebarLayout(
-                        sidebarPanel(
-                          selectInput("leaflet_opts", "Select Data Fill",
-                                      choices = leaflet_opts)),
-                        mainPanel(leafletOutput("leaflet_map"))))),
+  tabPanel("Map Visualizations",
+           
+           sidebarLayout(
+             sidebarPanel(
+               selectInput("fill_opts", "Select Data Fill",
+                           choices = select_fill_options),
+               checkboxInput("bounds_opts", "Toggle Neighborhood Boundaries",
+                             value = FALSE),
+               sliderInput("tree_sample", "Select Trees in Sample", 
+                           min=0, max=100000, value=50000)),
+             mainPanel(plotOutput("geom_map")))),
   # second panel: data table and base r scatterplot
   tabPanel("Data Table Output",
            selectInput("variable1", "Variable 1:",
@@ -213,45 +172,7 @@ server <- function(input, output) {
       theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
       theme_bw()
     
-    
   })
-  
-  # This reactive expression represents the palette function,
-  # which changes as the user makes selections in UI.
- # leaf_data <- reactive ({
- #   tract_stuff[tract_stuff@data == input$leaflet_opts]
- # })
-  
-  leaf_fill_data <- reactive({
-    x <- input$leaflet_opts
-    colorQuantile("OrRd", tract_stuff@data$x, n=9, na.color = "transparent")  
-  })
-  
-  output$leaflet_map <- renderLeaflet({
-    # Use leaflet() here, and only include aspects of the map that
-    # won't need to change dynamically (at least, not unless the
-    # entire map is being torn down and recreated).
-    m <- leaflet(tract_stuff, options = leafletOptions(minZoom = 10, maxZoom = 13))
-    m %>%
-      addTiles() %>%
-      setView(lng=-122.65, lat=45.52, zoom = 10) 
-  })
-  
-  # Incremental changes to the map (in this case, replacing the
-  # circles when a new color is chosen) should be performed in
-  # an observer. Each independent set of things that can change
-  # should be managed in its own observer.
-  observeEvent(input$leaflet_opts, {
-    
-    x <- input$leaflet_opts
-    
-    leafletProxy("leaflet_map", data = tract_stuff) %>%
-      clearShapes() %>%
-      addPolygons(stroke = FALSE, fillOpacity = .8, smoothFactor = 0.2, 
-                  color = ~leaf_fill_data())
-      
-  })
-  
   
   # output of table, dependent on drop down choices for variables 1 and 2
   output$mytable <- DT::renderDataTable({
