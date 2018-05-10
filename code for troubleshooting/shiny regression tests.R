@@ -112,3 +112,67 @@ m12 <- lm(sumOverCount ~ `Median Family Income` +
             dist,
           tscc)
 summary(m12)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+library(tidyverse)
+library(readr)
+library(readxl)
+library(lubridate)
+library(sp)
+library(rgdal)
+library(ggmap)
+library(maptools)
+library(raster)
+library(spData)
+
+list.files('~/urban-forest/data-raw/', pattern='\\.shp$')
+file.exists('~/urban-forest/data-raw/cb_2017_41_tract_500k.shp')
+
+census_spatial <- readOGR(dsn=path.expand("~/urban-forest/data-raw/"), 
+                          layer="cb_2017_41_tract_500k") 
+
+z <- newtidytract2016 %>%
+  filter(`% Canopy Coverage` >= 0.4)
+
+tract_stuff <- merge(census_spatial, z, by.x = "GEOID", by.y = "fips") 
+tract_stuff <- subset(tract_stuff, `% Canopy Coverage` > 0)
+
+library(leaflet)
+
+qpal<-colorQuantile("OrRd", tract_stuff@data$`% Canopy Coverage`, n=9) 
+list.queen<-poly2nb(tract_stuff, queen=TRUE)
+W<-nb2listw(list.queen, style="W", zero.policy=TRUE)
+coords<-coordinates(tract_stuff)
+W_dist<-dnearneigh(coords,0,1,longlat = FALSE)
+
+f1 <- `% Canopy Coverage` ~ `Median Gross Rent` +
+  `Median Family Income` +
+  `Gini Index` +
+  `% Workers with Over 40 Minute Commute`
+
+nb <- poly2nb(tract_stuff)
+lw <- nb2listw(nb)
+
+m1s = lagsarlm(f1, data=tract_stuff, lw, tol.solve=1.0e-30)
+
+summary(m1s)
+
+a <- residuals(m1s)
+
+summary(a)
