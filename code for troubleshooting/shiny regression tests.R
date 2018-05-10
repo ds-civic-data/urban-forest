@@ -164,7 +164,8 @@ W_dist<-dnearneigh(coords,0,1,longlat = FALSE)
 f1 <- `% Canopy Coverage` ~ `Median Gross Rent` +
   `Median Family Income` +
   `Gini Index` +
-  `% Workers with Over 40 Minute Commute`
+  `Area (Land, in Sq. Miles)` +
+  `% Households: Less than $40,000` 
 
 nb <- poly2nb(tract_stuff)
 lw <- nb2listw(nb)
@@ -172,7 +173,3 @@ lw <- nb2listw(nb)
 m1s = lagsarlm(f1, data=tract_stuff, lw, tol.solve=1.0e-30)
 
 summary(m1s)
-
-a <- residuals(m1s)
-
-summary(a)
