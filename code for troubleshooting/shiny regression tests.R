@@ -74,3 +74,41 @@ m9 <- lm(sumOverCount ~ `Median Family Income` +
            dist,
          tscc)
 summary(m9)
+
+m10 <- lm(sumOverCount ~ `Median Family Income` +
+            `% Civilian Population in Labor Force 16 Years and Over: Unemployed` +
+            `% Total Population: Black or African American Alone` +
+            `Population Density (Per Sq. Mile)` +
+            `Gini Index` +
+            `% Workers with Over 40 Minute Commute` +
+            `% Population: Bachelor's Degree` +
+            `% Occupied Housing Units: Owner Occupied` +
+            percent_water +
+            dist,
+          tscc)
+summary(m10)
+
+tscc_water <- tscc %>%
+  mutate(coverage_land = sumOverCount / (1 - percent_water))
+
+m10 <- lm(coverage_land ~ `Median Family Income` +
+            `% Civilian Population in Labor Force 16 Years and Over: Unemployed` +
+            `% Total Population: Black or African American Alone` +
+            `Population Density (Per Sq. Mile)` +
+            `Gini Index` +
+            `% Workers with Over 40 Minute Commute` +
+            `% Population: Bachelor's Degree` +
+            `% Occupied Housing Units: Owner Occupied` +
+            dist,
+          tscc_water)
+summary(m10)
+
+m12 <- lm(sumOverCount ~ `Median Family Income` +
+            `Population Density (Per Sq. Mile)` +
+            `Gini Index` +
+            `% Population: Bachelor's Degree` +
+            `% Occupied Housing Units: Owner Occupied` +
+            percent_water +
+            dist,
+          tscc)
+summary(m12)
