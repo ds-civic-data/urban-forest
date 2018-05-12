@@ -1,6 +1,9 @@
 ---
-output: html_document
-keep_md: true
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    include_md: true
 ---
 
 ```{r setup, include=FALSE}
