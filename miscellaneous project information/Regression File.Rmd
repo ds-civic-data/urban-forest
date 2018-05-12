@@ -1,5 +1,6 @@
 ---
 output: html_document
+keep_md: true
 ---
 
 ```{r setup, include=FALSE}
@@ -19,6 +20,7 @@ library(graphics)
 library(grDevices)
 library(readr)
 library(rgdal)
+library(stargazer)
 
 
 list.files('~/urban-forest/data-raw/', pattern='\\.shp$')
