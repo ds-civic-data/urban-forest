@@ -134,10 +134,7 @@ ui <- navbarPage(
                     column(5, plotOutput("outplot"))),
            # output: interactive table
              mainPanel(tableOutput("table"))),
-  tabPanel("Regression",
-           htmlOutput("inc")),
-  
-  # fourth panel: our about page, including downloadable links to some data
+
   tabPanel("About",
            shiny::includeMarkdown('~/urban-forest/miscellaneous project information/About File.Rmd')
            , width = 100)
@@ -187,10 +184,7 @@ server <- function(input, output) {
     plot(newtidytract2016[, c(input$variable1, input$variable2), drop = FALSE])
     if (length(s)) points(newtidytract2016[s, c(input$variable1, input$variable2), drop = FALSE], pch = 19, cex = 2)
   })
-    getPage<-function() {
-      return(includeHTML("~/urban-forest/documents/Regression_File.html"))
-    }
-    output$inc<-renderUI({getPage()})
+
 }
 
 shinyApp(ui = ui, server = server)
